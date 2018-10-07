@@ -16,7 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.population_linkage.normalisation.DateNormalisation;
+import uk.ac.standrews.cs.population_records.normalisation.DateNormalisation;
 import uk.ac.standrews.cs.storr.impl.Metadata;
 import uk.ac.standrews.cs.storr.impl.StaticLXP;
 import uk.ac.standrews.cs.storr.impl.exceptions.PersistentObjectException;
