@@ -16,9 +16,9 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
+import uk.ac.standrews.cs.population_records.RecordRepository;
 import uk.ac.standrews.cs.population_records.record_types.Death;
 import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.storr.interfaces.IBucket;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 import java.util.List;
@@ -36,17 +36,11 @@ public abstract class DeathRecordImporter extends RecordImporter {
 
     public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Death death);
 
-    public int importDeathRecords(IBucket<Death> deaths, DataSet data) throws BucketException {
-
-        int count = 0;
+    public void importDeathRecords(RecordRepository record_repository, DataSet data) throws BucketException {
 
         for (List<String> record : data.getRecords()) {
-
-            deaths.makePersistent(importDeathRecord(data, record));
-            count++;
+            record_repository.addDeath(importDeathRecord(data, record));
         }
-
-        return count;
     }
 
     private Death importDeathRecord(DataSet data, List<String> record) {

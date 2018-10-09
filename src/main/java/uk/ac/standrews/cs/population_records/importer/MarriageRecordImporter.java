@@ -16,6 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
+import uk.ac.standrews.cs.population_records.RecordRepository;
 import uk.ac.standrews.cs.population_records.record_types.Marriage;
 import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
 import uk.ac.standrews.cs.storr.interfaces.IBucket;
@@ -36,17 +37,11 @@ public abstract class MarriageRecordImporter extends RecordImporter {
 
     public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Marriage marriage);
 
-    public int importMarriageRecords(IBucket<Marriage> marriages, DataSet data) throws BucketException {
-
-        int count = 0;
+    public void importMarriageRecords(RecordRepository record_repository, DataSet data) throws BucketException {
 
         for (List<String> record : data.getRecords()) {
-
-            marriages.makePersistent(importMarriageRecord(data, record));
-            count++;
+            record_repository.addMarriage(importMarriageRecord(data, record));
         }
-
-        return count;
     }
 
     private Marriage importMarriageRecord(DataSet data, List<String> record) {

@@ -20,37 +20,83 @@ import uk.ac.standrews.cs.population_records.record_types.Birth;
 import uk.ac.standrews.cs.population_records.record_types.Death;
 import uk.ac.standrews.cs.population_records.record_types.Marriage;
 import uk.ac.standrews.cs.storr.impl.BucketKind;
+import uk.ac.standrews.cs.storr.impl.LXP;
 import uk.ac.standrews.cs.storr.impl.Store;
+import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
 import uk.ac.standrews.cs.storr.impl.exceptions.RepositoryException;
 import uk.ac.standrews.cs.storr.interfaces.IBucket;
 import uk.ac.standrews.cs.storr.interfaces.IRepository;
 import uk.ac.standrews.cs.storr.interfaces.IStore;
 
 import java.nio.file.Path;
+import java.util.Iterator;
+import java.util.List;
 
-/**
- * Module to initialise the store ready for ingesting of birth/death/marriage records.
- * Created by al on 22/3/2017.
- *
- * @author al@st-andrews.ac.uk
- */
 public class RecordRepository {
 
-    private static final String BIRTHS_BUCKET_NAME = "birth_records";              // Name of bucket containing birth records (inputs).
-    private static final String DEATHS_BUCKET_NAME = "death_records";              // Name of bucket containing death records (inputs).
-    private static final String MARRIAGES_BUCKET_NAME = "marriage_records";        // Name of bucket containing marriage records (inputs).
+    private static final String BIRTHS_BUCKET_NAME = "birth_records";
+    private static final String DEATHS_BUCKET_NAME = "death_records";
+    private static final String MARRIAGES_BUCKET_NAME = "marriage_records";
 
     private IStore store;
 
-    public IBucket<Birth> births;
-    public IBucket<Marriage> marriages;
-    public IBucket<Death> deaths;
+    private IBucket<Birth> births;
+    private IBucket<Marriage> marriages;
+    private IBucket<Death> deaths;
 
     public RecordRepository(Path store_path, String repository_name) throws Exception {
 
         store = new Store(store_path);
-
         initialiseBuckets(repository_name);
+    }
+
+    public Iterable<Birth> getBirths() {
+        return getRecords(births);
+    }
+
+    public Iterable<Death> getDeaths() {
+        return getRecords(deaths);
+    }
+
+    public Iterable<Marriage> getMarriages() {
+        return getRecords(marriages);
+    }
+
+    public void addBirth(Birth birth) throws BucketException {
+        births.makePersistent(birth);
+    }
+
+    public void addDeath(Death death) throws BucketException {
+        deaths.makePersistent(death);
+    }
+
+    public void addMarriage(Marriage marriage) throws BucketException {
+        marriages.makePersistent(marriage);
+    }
+
+    private <T extends LXP> Iterable<T> getRecords(IBucket<T> bucket) {
+
+        return () -> new Iterator<T>() {
+
+            List<Long> object_ids = bucket.getOids();
+
+            @Override
+            public boolean hasNext() {
+                return object_ids.size() > 0;
+            }
+
+            @Override
+            public T next() {
+                try {
+                    long id = object_ids.get(0);
+                    object_ids.remove(0);
+                    return bucket.getObjectById(id);
+
+                } catch (BucketException e) {
+                    return null;
+                }
+            }
+        };
     }
 
     private void initialiseBuckets(String repository_name) throws RepositoryException {

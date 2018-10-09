@@ -24,9 +24,9 @@ public abstract class DataSetImporter {
 
     public abstract String getDataSetName();
 
-    public abstract int importBirthRecords(RecordRepository record_repository, DataSet birth_records) throws BucketException;
+    public abstract void importBirthRecords(RecordRepository record_repository, DataSet birth_records) throws BucketException;
 
-    public abstract int importDeathRecords(RecordRepository record_repository, DataSet death_records) throws BucketException;
+    public abstract void importDeathRecords(RecordRepository record_repository, DataSet death_records) throws BucketException;
 
-    public abstract int importMarriageRecords(RecordRepository record_repository, DataSet marriage_records) throws BucketException;
+    public abstract void importMarriageRecords(RecordRepository record_repository, DataSet marriage_records) throws BucketException;
 }

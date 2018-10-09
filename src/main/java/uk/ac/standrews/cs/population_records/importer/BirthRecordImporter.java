@@ -1,8 +1,8 @@
 package uk.ac.standrews.cs.population_records.importer;
 
+import uk.ac.standrews.cs.population_records.RecordRepository;
 import uk.ac.standrews.cs.population_records.record_types.Birth;
 import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.storr.interfaces.IBucket;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 import java.util.List;
@@ -20,17 +20,11 @@ public abstract class BirthRecordImporter extends RecordImporter {
 
     public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Birth birth);
 
-    public int importBirthRecords(IBucket<Birth> births, DataSet data) throws BucketException {
-
-        int count = 0;
+    public void importBirthRecords(RecordRepository record_repository, DataSet data) throws BucketException {
 
         for (List<String> record : data.getRecords()) {
-
-            births.makePersistent(importBirthRecord(data, record));
-            count++;
+            record_repository.addBirth(importBirthRecord(data, record));
         }
-
-        return count;
     }
 
     private Birth importBirthRecord(DataSet data, List<String> record) {
