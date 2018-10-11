@@ -32,13 +32,14 @@ import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 public class Birth extends StaticLXP {
 
     private static Metadata static_md;
+
     static {
 
         try {
-            static_md = new Metadata( Birth.class,"Birth" );
+            static_md = new Metadata(Birth.class, "Birth");
 
         } catch (Exception e) {
-            ErrorHandling.exceptionError( e );
+            ErrorHandling.exceptionError(e);
         }
     }
 
@@ -46,6 +47,9 @@ public class Birth extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int ORIGINAL_ID;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int STANDARDISED_ID;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int FORENAME;
@@ -223,27 +227,37 @@ public class Birth extends StaticLXP {
         return getString(SEX);
     }
 
-    public String getForenameClean() { return getString(FORENAME_CLEAN); }
+    public String getForenameClean() {
+        return getString(FORENAME_CLEAN);
+    }
 
     public String getSurnameClean() {
         return getString(SURNAME_CLEAN);
     }
 
-    public String getFathersForenameClean() { return getString(FATHERS_SURNAME_CLEAN); }
+    public String getFathersForenameClean() {
+        return getString(FATHERS_SURNAME_CLEAN);
+    }
 
     public String getFathersSurnameClean() {
         return getString(FATHERS_SURNAME_CLEAN);
     }
 
-    public String getMothersForenameClean() { return getString(MOTHERS_SURNAME_CLEAN); }
+    public String getMothersForenameClean() {
+        return getString(MOTHERS_SURNAME_CLEAN);
+    }
 
-    public String getMothersSurnameClean() { return getString(MOTHERS_SURNAME_CLEAN); }
-
-    @Override
-    public boolean equals( final Object o ) {
-        return o instanceof Birth && (( ((Birth) o).getId()) == this.getId());
+    public String getMothersSurnameClean() {
+        return getString(MOTHERS_SURNAME_CLEAN);
     }
 
     @Override
-    public int hashCode() { return new Long( this.getId() ).hashCode(); }
+    public boolean equals(final Object o) {
+        return o instanceof Birth && ((((Birth) o).getId()) == this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return new Long(this.getId()).hashCode();
+    }
 }
