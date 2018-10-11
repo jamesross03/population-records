@@ -78,19 +78,19 @@ public class RecordRepository {
 
         return () -> new Iterator<T>() {
 
-            List<Long> object_ids = bucket.getOids();
+            final List<Long> object_ids = bucket.getOids();
+            final int bucket_size = object_ids.size();
+            int next_index = 0;
 
             @Override
             public boolean hasNext() {
-                return object_ids.size() > 0;
+                return next_index < bucket_size;
             }
 
             @Override
             public T next() {
                 try {
-                    long id = object_ids.get(0);
-                    object_ids.remove(0);
-                    return bucket.getObjectById(id);
+                    return bucket.getObjectById(object_ids.get(next_index++));
 
                 } catch (BucketException e) {
                     return null;
