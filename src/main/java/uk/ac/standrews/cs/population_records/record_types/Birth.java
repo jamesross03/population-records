@@ -43,6 +43,11 @@ public class Birth extends StaticLXP {
         }
     }
 
+    @Override
+    public Metadata getMetaData() {
+        return static_md;
+    }
+
     // Fields need to be duplicated for reflective use to work.
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
@@ -173,11 +178,6 @@ public class Birth extends StaticLXP {
     public Birth(long persistent_object_id, JSONReader reader, IBucket bucket) throws PersistentObjectException {
 
         super(persistent_object_id, reader, bucket);
-    }
-
-    @Override
-    public Metadata getMetaData() {
-        return static_md;
     }
 
     public String getFathersForename() {

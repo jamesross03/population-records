@@ -30,6 +30,7 @@ import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 /**
  * Created by al on 03/10/2014.
  */
+@SuppressWarnings("WeakerAccess")
 public class Marriage extends StaticLXP {
 
     private static Metadata static_md;
