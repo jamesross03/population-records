@@ -46,6 +46,9 @@ public class Death extends StaticLXP {
     public static int ORIGINAL_ID ;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int STANDARDISED_ID;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int FORENAME ;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)

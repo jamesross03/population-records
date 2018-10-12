@@ -47,6 +47,9 @@ public class Marriage extends StaticLXP {
     public static int ORIGINAL_ID ;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int STANDARDISED_ID;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int GROOM_MOTHERS_MAIDEN_SURNAME ;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
