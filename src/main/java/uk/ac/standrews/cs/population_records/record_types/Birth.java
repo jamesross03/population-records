@@ -29,7 +29,12 @@ import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 /**
  * Created by al on 03/10/2014.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Birth extends StaticLXP {
+
+    public static final String ROLE_BABY = "ROLE_BABY";
+    public static final String ROLE_MOTHER = "ROLE_MOTHER";
+    public static final String ROLE_FATHER = "ROLE_FATHER";
 
     private static Metadata static_md;
 

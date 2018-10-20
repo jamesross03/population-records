@@ -30,8 +30,15 @@ import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 /**
  * Created by al on 03/10/2014.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Marriage extends StaticLXP {
+
+    public static final String ROLE_BRIDE = "ROLE_BRIDE";
+    public static final String ROLE_GROOM = "ROLE_GROOM";
+    public static final String ROLE_BRIDES_MOTHER = "ROLE_BRIDES_MOTHER";
+    public static final String ROLE_BRIDES_FATHER = "ROLE_BRIDES_FATHER";
+    public static final String ROLE_GROOMS_MOTHER = "ROLE_GROOMS_MOTHER";
+    public static final String ROLE_GROOMS_FATHER = "ROLE_GROOMS_FATHER";
 
     private static Metadata static_md;
     static {
