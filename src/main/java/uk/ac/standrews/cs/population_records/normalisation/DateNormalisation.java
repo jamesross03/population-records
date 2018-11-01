@@ -23,35 +23,52 @@ import java.util.Set;
 
 public class DateNormalisation {
 
-    public static List<String> NORMALISED_MONTH_NAMES = Arrays.asList("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec");
+    private static final List<String> NORMALISED_DAY_NAMES = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
 
-    public static List<Set<String>> MONTH_NAMES = Arrays.asList(
-            new HashSet<>(Arrays.asList("january")),
-            new HashSet<>(Arrays.asList("february")),
-            new HashSet<>(Arrays.asList("march")),
-            new HashSet<>(Arrays.asList("april")),
-            new HashSet<>(Arrays.asList("may")),
-            new HashSet<>(Arrays.asList("june")),
-            new HashSet<>(Arrays.asList("july")),
-            new HashSet<>(Arrays.asList("august")),
-            new HashSet<>(Arrays.asList("september", "sept")),
-            new HashSet<>(Arrays.asList("october")),
-            new HashSet<>(Arrays.asList("november")),
-            new HashSet<>(Arrays.asList("december")));
+    private static final List<Set<String>> DAY_NAMES = Arrays.asList(
+            makeSet("monday"),
+            makeSet("tuesday"),
+            makeSet("wednesday"),
+            makeSet("thursday", "thur", "thurs"),
+            makeSet("friday"),
+            makeSet("saturday"),
+            makeSet("sunday"));
+
+    private static final List<String> NORMALISED_MONTH_NAMES = Arrays.asList("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec");
+
+    private static final List<Set<String>> MONTH_NAMES = Arrays.asList(
+            makeSet("january"),
+            makeSet("february"),
+            makeSet("march"),
+            makeSet("april"),
+            makeSet("may"),
+            makeSet("june"),
+            makeSet("july"),
+            makeSet("august"),
+            makeSet("september", "sept"),
+            makeSet("october"),
+            makeSet("november"),
+            makeSet("december"));
 
     static {
-        // Add the normalised names and month indices to the recognised month names.
-        for (int month = 0; month < NORMALISED_MONTH_NAMES.size(); month++) {
 
-            Set<String> this_month_names = MONTH_NAMES.get(month);
+        // Add the normalised names and indices to the recognised names.
+        setUp(NORMALISED_MONTH_NAMES, MONTH_NAMES);
+        setUp(NORMALISED_DAY_NAMES, DAY_NAMES);
+    }
 
-            this_month_names.add(NORMALISED_MONTH_NAMES.get(month));
+    private static void setUp(final List<String> normalised_names, final List<Set<String>> alternative_names) {
 
-            String index_as_string = String.valueOf(month + 1);
-            this_month_names.add(index_as_string);
+        for (int i = 0; i < normalised_names.size(); i++) {
+
+            final Set<String> names = alternative_names.get(i);
+            final String index_as_string = String.valueOf(i + 1);
+
+            names.add(normalised_names.get(i));
+            names.add(index_as_string);
 
             if (index_as_string.length() == 1) {
-                this_month_names.add("0" + index_as_string);
+                names.add("0" + index_as_string);
             }
         }
     }
@@ -62,16 +79,21 @@ public class DateNormalisation {
      */
     public static String normaliseMonth(String input) {
 
+        return normalise(input, NORMALISED_MONTH_NAMES, MONTH_NAMES);
+    }
+
+    private static String normalise(String input, List<String> normalised_names, List<Set<String>> alternative_names) {
+
         input = stripRubbish(input).toLowerCase();
 
-        for (int month = 0; month < NORMALISED_MONTH_NAMES.size(); month++) {
+        for (int i = 0; i < normalised_names.size(); i++) {
 
-            if (MONTH_NAMES.get(month).contains(input)) {
-                return NORMALISED_MONTH_NAMES.get(month);
+            if (alternative_names.get(i).contains(input)) {
+                return normalised_names.get(i);
             }
         }
 
-        return input;
+        throw new RuntimeException("Unrecognized: " + input);
     }
 
     /**
@@ -80,24 +102,12 @@ public class DateNormalisation {
      */
     public static String normaliseDayOfWeek(String input) {
 
-        input = stripRubbish(input).toLowerCase();
+        return normalise(input, NORMALISED_DAY_NAMES, DAY_NAMES);
+    }
 
-        if (input.equals("monday") || input.equals("1") || input.equals("mon"))
-            return "mon";
-        if (input.equals("tuesday") || input.equals("2") || input.equals("tue"))
-            return "tue";
-        if (input.equals("wednesday") || input.equals("3") || input.equals("wed"))
-            return "wed";
-        if (input.equals("thursday") || input.equals("4") || input.equals("thu"))
-            return "thu";
-        if (input.equals("friday") || input.equals("5") || input.equals("fri"))
-            return "fri";
-        if (input.equals("saturday") || input.equals("6") || input.equals("sat"))
-            return "sat";
-        if (input.equals("sunday") || input.equals("7") || input.equals("sun"))
-            return "sun";
+    public static String cleanDate(String day, String month, String year) {
 
-        throw new RuntimeException("Unrecognized day: " + input);
+        return cleanDay(day) + DATE_SEPARATOR + cleanMonth(month) + DATE_SEPARATOR + cleanYear(year);
     }
 
     private static String stripRubbish(String input) {
@@ -113,11 +123,6 @@ public class DateNormalisation {
             input = input.substring(0, input.indexOf("("));
         }
         return input;
-    }
-
-    public static String cleanDate(String day, String month, String year) {
-
-        return cleanDay(day) + DATE_SEPARATOR + cleanMonth(month) + DATE_SEPARATOR + cleanYear(year);
     }
 
     private static String cleanDay(final String day) {
@@ -164,6 +169,7 @@ public class DateNormalisation {
                 i += 1900;
             }
             return String.valueOf(i);
+
         } catch (NumberFormatException e) {
             return BLANK_YEAR;
         }
@@ -172,6 +178,11 @@ public class DateNormalisation {
     private static boolean notGiven(final String field) {
 
         return field.equals("") || field.equals("na") || field.equals("ng");
+    }
+
+    private static Set<String> makeSet(String... strings) {
+
+        return new HashSet<>(Arrays.asList(strings));
     }
 
     private static final String DATE_SEPARATOR = "/";
