@@ -16,7 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.population_records.normalisation.DateNormalisation;
 import uk.ac.standrews.cs.storr.impl.Metadata;
 import uk.ac.standrews.cs.storr.impl.StaticLXP;
 import uk.ac.standrews.cs.storr.impl.exceptions.PersistentObjectException;
@@ -24,11 +23,11 @@ import uk.ac.standrews.cs.storr.interfaces.IBucket;
 import uk.ac.standrews.cs.storr.types.LXPBaseType;
 import uk.ac.standrews.cs.storr.types.LXP_SCALAR;
 import uk.ac.standrews.cs.utilities.JSONReader;
-import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
+import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
-/**
- * Created by al on 03/10/2014.
- */
+import java.util.Iterator;
+import java.util.List;
+
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Birth extends StaticLXP {
 
@@ -36,24 +35,78 @@ public class Birth extends StaticLXP {
     public static final String ROLE_MOTHER = "ROLE_MOTHER";
     public static final String ROLE_FATHER = "ROLE_FATHER";
 
-    private static Metadata static_md;
-
+    private static Metadata static_metadata;
     static {
 
         try {
-            static_md = new Metadata(Birth.class, "Birth");
+            static_metadata = new Metadata(Birth.class, "Birth");
 
         } catch (Exception e) {
-            ErrorHandling.exceptionError(e);
+            throw new RuntimeException(e);
         }
+    }
+
+    public Birth() {
+
+        super();
+    }
+
+    public Birth(long persistent_object_id, JSONReader reader, IBucket bucket) throws PersistentObjectException {
+
+        super(persistent_object_id, reader, bucket);
+    }
+
+    public Birth(DataSet data, List<String> record) {
+
+        this();
+        Utilities.addFieldsToLXP(this, getLabels(), record, data.getColumnLabels());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return o instanceof Birth && ((((Birth) o).getId()) == getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return new Long(getId()).hashCode();
     }
 
     @Override
     public Metadata getMetaData() {
-        return static_md;
+        return static_metadata;
     }
 
-    // Fields need to be duplicated for reflective use to work.
+    public static List<String> getLabels() {
+
+        return static_metadata.getFieldNamesInSlotOrder();
+    }
+
+    public static Iterable<Birth> convertToRecords(DataSet data_set) {
+
+        return () -> new Iterator<Birth>() {
+
+            int row = 0;
+
+            final List<List<String>> records = data_set.getRecords();
+            final int number_of_rows = records.size();
+
+            @Override
+            public boolean hasNext() {
+                return row < number_of_rows;
+            }
+
+            @Override
+            public Birth next() {
+                return new Birth(data_set, records.get(row++));
+            }
+        };
+    }
+
+    public static DataSet convertToDataSet(Iterable<Birth> records) {
+
+        return Utilities.toDataSet(records);
+    }
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int ORIGINAL_ID;
@@ -174,95 +227,4 @@ public class Birth extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MOTHERS_SURNAME_CLEAN;
-
-    public Birth() {
-
-        super();
-    }
-
-    public Birth(long persistent_object_id, JSONReader reader, IBucket bucket) throws PersistentObjectException {
-
-        super(persistent_object_id, reader, bucket);
-    }
-
-    public String getFathersForename() {
-
-        return getString(FATHERS_FORENAME);
-    }
-
-    public String getFathersSurname() {
-
-        return getString(FATHERS_SURNAME);
-    }
-
-    public String getMothersForename() {
-
-        return getString(MOTHERS_FORENAME);
-    }
-
-    public String getMothersMaidenSurname() {
-
-        return getString(MOTHERS_MAIDEN_SURNAME);
-    }
-
-    public String getPlaceOfMarriage() {
-
-        return getString(PARENTS_PLACE_OF_MARRIAGE);
-    }
-
-    public String getDateOfMarriage() {
-
-        return DateNormalisation.cleanDate(getString(PARENTS_DAY_OF_MARRIAGE), getString(PARENTS_MONTH_OF_MARRIAGE), getString(PARENTS_YEAR_OF_MARRIAGE));
-    }
-
-    public String getDOB() {
-
-        return getString(BIRTH_DAY) + "/" + getString(BIRTH_MONTH) + "/" + getString(BIRTH_YEAR);
-    }
-
-    public String getForename() {
-        return getString(FORENAME);
-    }
-
-    public String getSurname() {
-        return getString(SURNAME);
-    }
-
-    public String getSex() {
-        return getString(SEX);
-    }
-
-    public String getForenameClean() {
-        return getString(FORENAME_CLEAN);
-    }
-
-    public String getSurnameClean() {
-        return getString(SURNAME_CLEAN);
-    }
-
-    public String getFathersForenameClean() {
-        return getString(FATHERS_SURNAME_CLEAN);
-    }
-
-    public String getFathersSurnameClean() {
-        return getString(FATHERS_SURNAME_CLEAN);
-    }
-
-    public String getMothersForenameClean() {
-        return getString(MOTHERS_SURNAME_CLEAN);
-    }
-
-    public String getMothersSurnameClean() {
-        return getString(MOTHERS_SURNAME_CLEAN);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        return o instanceof Birth && ((((Birth) o).getId()) == this.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return new Long(this.getId()).hashCode();
-    }
 }

@@ -16,13 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
-import uk.ac.standrews.cs.population_records.RecordRepository;
-import uk.ac.standrews.cs.population_records.record_types.Death;
-import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.utilities.dataset.DataSet;
-
-import java.util.List;
-
 /**
  * Utility classes for importing records in digitising scotland format
  * Created by al on 8/11/2016.
@@ -32,26 +25,26 @@ import java.util.List;
  */
 public abstract class DeathRecordImporter extends RecordImporter {
 
-    public abstract void addAvailableCompoundFields(final DataSet data, final List<String> record, final Death death);
-
-    public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Death death);
-
-    public void importDeathRecords(RecordRepository record_repository, DataSet data) throws BucketException {
-
-        for (List<String> record : data.getRecords()) {
-            record_repository.addDeath(importDeathRecord(data, record));
-        }
-    }
-
-    private Death importDeathRecord(DataSet data, List<String> record) {
-
-        Death death = new Death();
-
-        addAvailableSingleFields(data, record, death, getRecordMap());
-        addAvailableCompoundFields(data, record, death);
-        addAvailableNormalisedFields(data, record, death);
-        addUnavailableFields(death, getUnavailableRecords());
-
-        return death;
-    }
+//    public abstract void addAvailableCompoundFields(final DataSet data, final List<String> record, final Death death);
+//
+//    public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Death death);
+//
+//    public void importDeathRecords(RecordRepository record_repository, DataSet data) throws BucketException {
+//
+//        for (List<String> record : data.getRecords()) {
+//            record_repository.addDeath(importDeathRecord(data, record));
+//        }
+//    }
+//
+//    private Death importDeathRecord(DataSet data, List<String> record) {
+//
+//        Death death = new Death();
+//
+//        addAvailableSingleFields(data, record, death, getRecordMap());
+//        addAvailableCompoundFields(data, record, death);
+//        addAvailableNormalisedFields(data, record, death);
+//        addUnavailableFields(death, getUnavailableRecords());
+//
+//        return death;
+//    }
 }

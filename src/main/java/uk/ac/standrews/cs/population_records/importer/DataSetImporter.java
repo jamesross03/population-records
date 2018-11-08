@@ -16,17 +16,13 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
-import uk.ac.standrews.cs.population_records.RecordRepository;
-import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.utilities.dataset.DataSet;
-
 public abstract class DataSetImporter {
 
-    public abstract String getDataSetName();
-
-    public abstract void importBirthRecords(RecordRepository record_repository, DataSet birth_records) throws BucketException;
-
-    public abstract void importDeathRecords(RecordRepository record_repository, DataSet death_records) throws BucketException;
-
-    public abstract void importMarriageRecords(RecordRepository record_repository, DataSet marriage_records) throws BucketException;
+//    public abstract String getDataSetName();
+//
+//    public abstract void importBirthRecords(RecordRepository record_repository, DataSet birth_records) throws BucketException;
+//
+//    public abstract void importDeathRecords(RecordRepository record_repository, DataSet death_records) throws BucketException;
+//
+//    public abstract void importMarriageRecords(RecordRepository record_repository, DataSet marriage_records) throws BucketException;
 }

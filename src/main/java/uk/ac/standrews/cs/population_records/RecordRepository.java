@@ -27,6 +27,7 @@ import uk.ac.standrews.cs.storr.impl.exceptions.RepositoryException;
 import uk.ac.standrews.cs.storr.interfaces.IBucket;
 import uk.ac.standrews.cs.storr.interfaces.IRepository;
 import uk.ac.standrews.cs.storr.interfaces.IStore;
+import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -72,6 +73,27 @@ public class RecordRepository {
 
     public void addMarriage(Marriage marriage) throws BucketException {
         marriages.makePersistent(marriage);
+    }
+
+    public void importBirthRecords(DataSet birth_records) throws BucketException {
+
+        for (Birth birth : Birth.convertToRecords(birth_records)) {
+            addBirth(birth);
+        }
+    }
+
+    public void importDeathRecords(DataSet death_records) throws BucketException {
+
+        for (Death death : Death.convertToRecords(death_records)) {
+            addDeath(death);
+        }
+    }
+
+    public void importMarriageRecords(DataSet marriage_records) throws BucketException {
+
+        for (Marriage marriage : Marriage.convertToRecords(marriage_records)) {
+            addMarriage(marriage);
+        }
     }
 
     private <T extends LXP> Iterable<T> getRecords(IBucket<T> bucket) {

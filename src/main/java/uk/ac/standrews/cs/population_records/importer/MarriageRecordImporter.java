@@ -16,14 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
-import uk.ac.standrews.cs.population_records.RecordRepository;
-import uk.ac.standrews.cs.population_records.record_types.Marriage;
-import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.storr.interfaces.IBucket;
-import uk.ac.standrews.cs.utilities.dataset.DataSet;
-
-import java.util.List;
-
 /**
  * Utility classes for importing records in digitising scotland format
  * Created by al on 8/11/2016.
@@ -33,26 +25,26 @@ import java.util.List;
  */
 public abstract class MarriageRecordImporter extends RecordImporter {
 
-    public abstract void addAvailableCompoundFields(final DataSet data, final List<String> record, final Marriage marriage);
-
-    public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Marriage marriage);
-
-    public void importMarriageRecords(RecordRepository record_repository, DataSet data) throws BucketException {
-
-        for (List<String> record : data.getRecords()) {
-            record_repository.addMarriage(importMarriageRecord(data, record));
-        }
-    }
-
-    private Marriage importMarriageRecord(DataSet data, List<String> record) {
-
-        Marriage marriage = new Marriage();
-
-        addAvailableSingleFields(data, record, marriage, getRecordMap());
-        addAvailableNormalisedFields(data, record, marriage);
-        addAvailableCompoundFields(data, record, marriage);
-        addUnavailableFields(marriage, getUnavailableRecords());
-
-        return marriage;
-    }
+//    public abstract void addAvailableCompoundFields(final DataSet data, final List<String> record, final Marriage marriage);
+//
+//    public abstract void addAvailableNormalisedFields(DataSet data, List<String> record, Marriage marriage);
+//
+//    public void importMarriageRecords(RecordRepository record_repository, DataSet data) throws BucketException {
+//
+//        for (List<String> record : data.getRecords()) {
+//            record_repository.addMarriage(importMarriageRecord(data, record));
+//        }
+//    }
+//
+//    private Marriage importMarriageRecord(DataSet data, List<String> record) {
+//
+//        Marriage marriage = new Marriage();
+//
+//        addAvailableSingleFields(data, record, marriage, getRecordMap());
+//        addAvailableNormalisedFields(data, record, marriage);
+//        addAvailableCompoundFields(data, record, marriage);
+//        addUnavailableFields(marriage, getUnavailableRecords());
+//
+//        return marriage;
+//    }
 }

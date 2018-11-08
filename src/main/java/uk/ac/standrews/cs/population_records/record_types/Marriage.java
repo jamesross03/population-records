@@ -16,7 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.population_records.normalisation.DateNormalisation;
 import uk.ac.standrews.cs.storr.impl.Metadata;
 import uk.ac.standrews.cs.storr.impl.StaticLXP;
 import uk.ac.standrews.cs.storr.impl.exceptions.IllegalKeyException;
@@ -26,10 +25,11 @@ import uk.ac.standrews.cs.storr.types.LXPBaseType;
 import uk.ac.standrews.cs.storr.types.LXP_SCALAR;
 import uk.ac.standrews.cs.utilities.JSONReader;
 import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
+import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
-/**
- * Created by al on 03/10/2014.
- */
+import java.util.Iterator;
+import java.util.List;
+
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Marriage extends StaticLXP {
 
@@ -40,153 +40,19 @@ public class Marriage extends StaticLXP {
     public static final String ROLE_GROOMS_MOTHER = "ROLE_GROOMS_MOTHER";
     public static final String ROLE_GROOMS_FATHER = "ROLE_GROOMS_FATHER";
 
-    private static Metadata static_md;
+    private static Metadata static_metadata;
     static {
 
         try {
-            static_md = new Metadata( Marriage.class,"Marriage" );
+            static_metadata = new Metadata(Marriage.class, "Marriage");
 
         } catch (Exception e) {
-            ErrorHandling.exceptionError( e );
+            ErrorHandling.exceptionError(e);
         }
     }
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int ORIGINAL_ID ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int STANDARDISED_ID;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_MOTHERS_MAIDEN_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_OCCUPATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_FATHER_OCCUPATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_FATHERS_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int CHANGED_GROOM_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int IMAGE_QUALITY ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_FATHERS_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_ADDRESS ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_MOTHERS_MAIDEN_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_FATHERS_OCCUPATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int ENTRY ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_ADDRESS ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MARRIAGE_MONTH ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MARRIAGE_YEAR ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_DID_NOT_SIGN ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_MARITAL_STATUS ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int DENOMINATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_FATHER_DECEASED ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_OCCUPATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int CHANGED_GROOM_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_DID_NOT_SIGN ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_MOTHERS_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_MOTHER_DECEASED ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_MOTHERS_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_MOTHER_DECEASED ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int REGISTRATION_DISTRICT_NUMBER ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int REGISTRATION_DISTRICT_SUFFIX ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_MARITAL_STATUS ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_FATHERS_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_AGE_OR_DATE_OF_BIRTH ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int CHANGED_BRIDE_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int CORRECTED_ENTRY ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int CHANGED_BRIDE_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int BRIDE_FORENAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_FATHERS_SURNAME ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_FATHER_DECEASED ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int GROOM_AGE_OR_DATE_OF_BIRTH ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int YEAR_OF_REGISTRATION ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MARRIAGE_DAY ;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int PLACE_OF_MARRIAGE ;
-
-    //******************** Constructors ********************
+    public static Metadata getStaticMetaData() {
+        return static_metadata;
+    }
 
     public Marriage() {
 
@@ -198,122 +64,190 @@ public class Marriage extends StaticLXP {
         super(persistent_object_id, reader, bucket);
     }
 
+    public Marriage(DataSet data, List<String> record) {
+
+        this();
+        Utilities.addFieldsToLXP(this, getLabels(), record, data.getColumnLabels());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return o instanceof Marriage && ((((Marriage) o).getId()) == getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return new Long(getId()).hashCode();
+    }
+
     @Override
     public Metadata getMetaData() {
-        return static_md;
+        return static_metadata;
     }
 
-    //******************** Selectors ********************
+    public static List<String> getLabels() {
 
-    public String getGroomsForename() {
-
-        return getString(GROOM_FORENAME);
+        return static_metadata.getFieldNamesInSlotOrder();
     }
 
-    public String getGroomsSurname() {
+    public static Iterable<Marriage> convertToRecords(DataSet data_set) {
 
-        return getString(GROOM_SURNAME);
+        return () -> new Iterator<Marriage>() {
+
+            int row = 0;
+
+            final List<List<String>> records = data_set.getRecords();
+            final int number_of_rows = records.size();
+
+            @Override
+            public boolean hasNext() {
+                return row < number_of_rows;
+            }
+
+            @Override
+            public Marriage next() {
+                return new Marriage(data_set, records.get(row++));
+            }
+        };
     }
 
-    public String getGroomsDob() {
+    public static DataSet convertToDataSet(Iterable<Marriage> records) {
 
-        return getString(GROOM_AGE_OR_DATE_OF_BIRTH);
+        return Utilities.toDataSet(records);
     }
 
-    public String getGFFN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int ORIGINAL_ID;
 
-        return getString(GROOM_FATHERS_FORENAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int STANDARDISED_ID;
 
-    public String getGFLN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_MOTHERS_MAIDEN_SURNAME;
 
-        return getString(GROOM_FATHERS_SURNAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_SURNAME;
 
-    public String getGMFN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_OCCUPATION;
 
-        return getString(GROOM_MOTHERS_FORENAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FATHER_OCCUPATION;
 
-    public String getGMMN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FATHERS_FORENAME;
 
-        return getString(GROOM_MOTHERS_MAIDEN_SURNAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int CHANGED_GROOM_FORENAME;
 
-    public String getBridesForename() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int IMAGE_QUALITY;
 
-        return getString(BRIDE_FORENAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FATHERS_FORENAME;
 
-    public String getBridesSurname() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_ADDRESS;
 
-        return getString(BRIDE_SURNAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_MOTHERS_MAIDEN_SURNAME;
 
-    public String getBridesDob() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FATHERS_OCCUPATION;
 
-        return getString(BRIDE_AGE_OR_DATE_OF_BIRTH);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int ENTRY;
 
-    public String getBFFN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_ADDRESS;
 
-        return getString(BRIDE_FATHERS_FORENAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_MONTH;
 
-    public String getBFLN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_YEAR;
 
-        return getString(BRIDE_FATHERS_SURNAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_DID_NOT_SIGN;
 
-    public String getBMFN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_MARITAL_STATUS;
 
-        return getString(BRIDE_MOTHERS_FORENAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int DENOMINATION;
 
-    public String getBMMN() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FATHER_DECEASED;
 
-        return getString(BRIDE_MOTHERS_MAIDEN_SURNAME);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FORENAME;
 
-    public String getPlaceOfMarriage() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_OCCUPATION;
 
-        return getString(PLACE_OF_MARRIAGE);
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int CHANGED_GROOM_SURNAME;
 
-    public String getDateOfMarriage() {
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_DID_NOT_SIGN;
 
-        return DateNormalisation.cleanDate(getString(MARRIAGE_DAY), getString(MARRIAGE_MONTH), getString(MARRIAGE_YEAR));
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_MOTHERS_FORENAME;
 
-    public String getGroomsFathersForename() {
-        return getString( GROOM_FATHERS_FORENAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_MOTHER_DECEASED;
 
-    public String getGroomsFathersSurname() {
-        return getString( GROOM_FATHERS_SURNAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_MOTHERS_FORENAME;
 
-    public String getGroomsMothersForename() {
-        return getString( GROOM_MOTHERS_FORENAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_MOTHER_DECEASED;
 
-    public String getGroomsMothersMaidenSurname() {
-        return getString( GROOM_MOTHERS_MAIDEN_SURNAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int REGISTRATION_DISTRICT_NUMBER;
 
-    public String getBridesFathersForename() {
-        return getString( BRIDE_FATHERS_FORENAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int REGISTRATION_DISTRICT_SUFFIX;
 
-    public String getBridesFathersSurname() {
-        return getString( BRIDE_FATHERS_SURNAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_SURNAME;
 
-    public String getBridesMothersForename() {
-        return getString( BRIDE_MOTHERS_FORENAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_MARITAL_STATUS;
 
-    public String getBridesMothersMaidenSurname() {
-        return getString( BRIDE_MOTHERS_MAIDEN_SURNAME );
-    }
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FATHERS_SURNAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_AGE_OR_DATE_OF_BIRTH;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int CHANGED_BRIDE_SURNAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int CORRECTED_ENTRY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int CHANGED_BRIDE_FORENAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FORENAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FATHERS_SURNAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FATHER_DECEASED;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_AGE_OR_DATE_OF_BIRTH;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int YEAR_OF_REGISTRATION;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_DAY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int PLACE_OF_MARRIAGE;
 }

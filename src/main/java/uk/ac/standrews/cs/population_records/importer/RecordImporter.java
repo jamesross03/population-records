@@ -16,12 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.importer;
 
-import uk.ac.standrews.cs.storr.impl.LXP;
-import uk.ac.standrews.cs.utilities.dataset.DataSet;
-
-import java.util.List;
-import java.util.Map;
-
 /**
  * Utility classes for importing records in digitising scotland format
  *
@@ -30,36 +24,36 @@ import java.util.Map;
  */
 public abstract class RecordImporter {
 
-    public abstract Map<Integer, String> getRecordMap();
-
-    public abstract int[] getUnavailableRecords();
-
-    static void addAvailableSingleFields(final DataSet data, final List<String> record, final LXP lxp_record, Map<Integer, String> label_map) {
-
-        for (int field : label_map.keySet()) {
-            lxp_record.put(field, data.getValue(record, label_map.get(field)));
-        }
-    }
-
-    static void addUnavailableFields(final LXP lxp_record, final int[] unavailable_record_labels) {
-
-        for (int field : unavailable_record_labels) {
-            lxp_record.put(field, "");
-        }
-    }
-
-    protected static String combineFields(final DataSet data, final List<String> record, String... source_field_labels) {
-
-        StringBuilder builder = new StringBuilder();
-
-        for (String source_field_label : source_field_labels) {
-
-            if (builder.length() > 0) {
-                builder.append(" ");
-            }
-            builder.append(data.getValue(record, source_field_label));
-        }
-
-        return builder.toString();
-    }
+//    public abstract Map<Integer, String> getRecordMap();
+//
+//    public abstract int[] getUnavailableRecords();
+//
+//    static void addAvailableSingleFields(final DataSet data, final List<String> record, final LXP lxp_record, Map<Integer, String> label_map) {
+//
+//        for (int field : label_map.keySet()) {
+//            lxp_record.put(field, data.getValue(record, label_map.get(field)));
+//        }
+//    }
+//
+//    static void addUnavailableFields(final LXP lxp_record, final int[] unavailable_record_labels) {
+//
+//        for (int field : unavailable_record_labels) {
+//            lxp_record.put(field, "");
+//        }
+//    }
+//
+//    protected static String combineFields(final DataSet data, final List<String> record, String... source_field_labels) {
+//
+//        StringBuilder builder = new StringBuilder();
+//
+//        for (String source_field_label : source_field_labels) {
+//
+//            if (builder.length() > 0) {
+//                builder.append(" ");
+//            }
+//            builder.append(data.getValue(record, source_field_label));
+//        }
+//
+//        return builder.toString();
+//    }
 }
