@@ -43,7 +43,7 @@ public abstract class PopulationDataSet extends DerivedDataSet {
     @Override
     protected DataSet getDerivedDataSet(final DataSet source_data_set) {
 
-        Mapper mapper = new Mapper() {
+        return source_data_set.map(new Mapper() {
 
             @Override
             public List<String> mapRecord(List<String> record, List<String> labels) {
@@ -52,6 +52,7 @@ public abstract class PopulationDataSet extends DerivedDataSet {
 
                 addFields(record, labels, new_record);
                 addCompositeFields(record, labels, new_record);
+                normaliseFieldValues(new_record);
 
                 return Arrays.asList(new_record);
             }
@@ -60,8 +61,7 @@ public abstract class PopulationDataSet extends DerivedDataSet {
             public List<String> mapColumnLabels(List<String> labels) {
                 return getConvertedHeadings();
             }
-        };
-        return source_data_set.map(mapper);
+        });
     }
 
     protected InputStream getResourceStream(final Path path) {
@@ -79,10 +79,8 @@ public abstract class PopulationDataSet extends DerivedDataSet {
             int existing_record_index = labels.indexOf(raw_label);
             int new_record_index = getConvertedHeadings().indexOf(converted_label);
 
-            new_record[new_record_index] = record.get(existing_record_index);
+            new_record[new_record_index] = record.get(existing_record_index).trim();
         }
-
-        normaliseFieldValues(new_record);
     }
 
     private void addCompositeFields(List<String> record, List<String> labels, String[] new_record) {
@@ -101,10 +99,12 @@ public abstract class PopulationDataSet extends DerivedDataSet {
 
         for (String source_field_label : source_field_labels) {
 
-            if (builder.length() > 0) {
+            String next_field_value = record.get(raw_record_labels.indexOf(source_field_label)).trim();
+
+            if (builder.length() > 0 && next_field_value.length() > 0) {
                 builder.append(" ");
             }
-            builder.append(record.get(raw_record_labels.indexOf(source_field_label)));
+            builder.append(next_field_value);
         }
 
         return builder.toString();
