@@ -57,7 +57,9 @@ public class Utilities {
                 System.out.print(",");
             }
             first = false;
-            System.out.print(element);
+            if (element != null) {
+                System.out.print(element);
+            }
         }
         System.out.println();
     }
