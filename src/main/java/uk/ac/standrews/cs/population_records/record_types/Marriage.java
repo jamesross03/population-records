@@ -162,10 +162,16 @@ public class Marriage extends StaticLXP {
     public static int GROOM_ADDRESS;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_DAY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MARRIAGE_MONTH;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MARRIAGE_YEAR;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int PLACE_OF_MARRIAGE;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int GROOM_DID_NOT_SIGN;
@@ -244,10 +250,4 @@ public class Marriage extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int YEAR_OF_REGISTRATION;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MARRIAGE_DAY;
-
-    @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int PLACE_OF_MARRIAGE;
 }
