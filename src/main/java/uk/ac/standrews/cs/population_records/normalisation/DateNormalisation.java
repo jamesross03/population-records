@@ -30,6 +30,8 @@ public class DateNormalisation {
     private static final String BLANK_MONTH = "--";
     private static final String BLANK_YEAR = "----";
 
+    private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "0");
+
     private static final List<String> NORMALISED_DAY_NAMES = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
 
     private static final List<Set<String>> DAY_NAMES = Arrays.asList(
@@ -86,7 +88,7 @@ public class DateNormalisation {
 
     public static String cleanDay(String day) {
 
-        day = stripRubbish(day);
+        day = clean(day);
 
         if (notGiven(day)) {
             return BLANK_DAY;
@@ -106,7 +108,7 @@ public class DateNormalisation {
 
     public static String cleanMonth(String month) {
 
-        month = stripRubbish(month);
+        month = clean(month);
 
         if (notGiven(month)) {
             return BLANK_MONTH;
@@ -124,7 +126,7 @@ public class DateNormalisation {
 
     public static String cleanYear(String year) {
 
-        year = stripRubbish(year);
+        year = clean(year);
 
         if (notGiven(year)) {
             return BLANK_YEAR;
@@ -175,7 +177,7 @@ public class DateNormalisation {
         }
     }
 
-    private static String stripRubbish(String input) {
+    private static String clean(String input) {
 
         input = input.trim();
         if (input.contains(" ")) {
@@ -192,7 +194,7 @@ public class DateNormalisation {
 
     private static boolean notGiven(final String field) {
 
-        return field.equals("") || field.equals("na") || field.equals("ng");
+        return NOT_GIVEN_STRINGS.contains(field);
     }
 
     private static Set<String> makeSet(String... strings) {
@@ -218,7 +220,7 @@ public class DateNormalisation {
 
     private static String normalise(String input, List<String> normalised_names, List<Set<String>> alternative_names) {
 
-        input = stripRubbish(input);
+        input = clean(input);
 
         for (int i = 0; i < normalised_names.size(); i++) {
 

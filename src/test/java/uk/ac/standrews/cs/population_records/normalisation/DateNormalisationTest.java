@@ -87,6 +87,8 @@ public class DateNormalisationTest {
         assertDateCleanedTo("--/05/----", "", "5", "QHAY");
         assertDateCleanedTo("--/05/----", "na", "5", "QHAY");
         assertDateCleanedTo("--/05/----", "ng", "5", "QHAY");
+        assertDateCleanedTo("--/05/----", "NG", "5", "QHAY");
+        assertDateCleanedTo("--/05/----", "0", "5", "QHAY");
     }
 
     @Test
