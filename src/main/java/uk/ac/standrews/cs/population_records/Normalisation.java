@@ -31,7 +31,7 @@ public class Normalisation {
     private static final String BLANK_YEAR = "----";
     private static final String BLANK_PLACE = "----";
 
-    private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "0");
+    private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "n", "none", "n/e", "0");
 
     private static final List<String> NORMALISED_DAY_NAMES = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
 
@@ -180,7 +180,12 @@ public class Normalisation {
 
     public static String cleanPlace(String place) {
 
-        place = clean(place);
+        place = place.trim().toLowerCase();
+        place = place.replace(",", "");
+
+        while (place.contains("  ")) {
+            place = place.replace("  ", " ");
+        }
 
         if (notGiven(place)) {
             return BLANK_PLACE;
@@ -204,7 +209,7 @@ public class Normalisation {
         return input.toLowerCase();
     }
 
-    private static boolean notGiven(final String field) {
+    static boolean notGiven(final String field) {
 
         return NOT_GIVEN_STRINGS.contains(field);
     }
