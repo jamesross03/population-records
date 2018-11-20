@@ -92,15 +92,15 @@ public class DateNormalisationTest {
     @Test
     public void extractFromDate() {
 
-        assertEquals("03", DateNormalisation.extractDay("3/05/1866"));
+        assertEquals("3", DateNormalisation.extractDay("3/05/1866"));
         assertEquals("03", DateNormalisation.extractDay("03/05/1866"));
-        assertEquals("--", DateNormalisation.extractDay("ng/05/1866"));
+        assertEquals("ng", DateNormalisation.extractDay("ng/05/1866"));
 
         assertEquals("05", DateNormalisation.extractMonth("03/05/1866"));
-        assertEquals("05", DateNormalisation.extractMonth("3/May/1866"));
+        assertEquals("May", DateNormalisation.extractMonth("3/May/1866"));
 
         assertEquals("1866", DateNormalisation.extractYear("03/05/1866"));
-        assertEquals("1866", DateNormalisation.extractYear("03/05/66"));
+        assertEquals("66", DateNormalisation.extractYear("03/05/66"));
     }
 
     private void assertDayNormalisedTo(String expected, String actual) {
@@ -115,6 +115,6 @@ public class DateNormalisationTest {
 
     private void assertDateCleanedTo(String expected, String day, String month, String year) {
 
-        assertEquals(expected, DateNormalisation.cleanDate(day, month, year));
+        assertEquals(expected, DateNormalisation.makeDate(DateNormalisation.cleanDay(day), DateNormalisation.normaliseMonth(DateNormalisation.cleanMonth(month)), DateNormalisation.cleanYear(year)));
     }
 }

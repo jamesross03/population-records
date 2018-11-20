@@ -64,53 +64,29 @@ public class DateNormalisation {
         setUp(NORMALISED_DAY_NAMES, DAY_NAMES);
     }
 
-    /**
-     * @param input the text to normalise
-     * @return that text representation of the month in a standard form
-     */
-    public static String normaliseMonth(String input) {
+    public static String makeDate(String day, String month, String year) {
 
-        try {
-            return normalise(input, NORMALISED_MONTH_NAMES, MONTH_NAMES);
-        } catch (Exception e) {
-            return BLANK_MONTH;
-        }
+        return day + DATE_SEPARATOR + month + DATE_SEPARATOR + year;
     }
 
-    /**
-     * @param input the text to normalise
-     * @return that text representation of the day of week in a standard form
-     */
-    public static String normaliseDayOfWeek(String input) {
+    public static String extractDay(String date) {
 
-        try {
-            return normalise(input, NORMALISED_DAY_NAMES, DAY_NAMES);
-        } catch (Exception e) {
-            return BLANK_DAY_OF_WEEK;
-        }
+        return date.split(DATE_SEPARATOR)[0];
     }
 
-    public static String cleanDate(String day, String month, String year) {
+    public static String extractMonth(String date) {
 
-        return cleanDay(day) + DATE_SEPARATOR + normaliseMonth(cleanMonth(month)) + DATE_SEPARATOR + cleanYear(year);
+        return date.split(DATE_SEPARATOR)[1];
     }
 
-    private static String stripRubbish(String input) {
+    public static String extractYear(String date) {
 
-        input = input.trim();
-        if (input.contains(" ")) {
-            input = input.substring(0, input.indexOf(" "));
-        }
-        if (input.contains("[")) {
-            input = input.substring(0, input.indexOf("["));
-        }
-        if (input.contains("(")) {
-            input = input.substring(0, input.indexOf("("));
-        }
-        return input;
+        return date.split(DATE_SEPARATOR)[2];
     }
 
-    private static String cleanDay(final String day) {
+    public static String cleanDay(String day) {
+
+        day = stripRubbish(day);
 
         if (notGiven(day)) {
             return BLANK_DAY;
@@ -128,7 +104,9 @@ public class DateNormalisation {
         }
     }
 
-    private static String cleanMonth(final String month) {
+    public static String cleanMonth(String month) {
+
+        month = stripRubbish(month);
 
         if (notGiven(month)) {
             return BLANK_MONTH;
@@ -144,7 +122,9 @@ public class DateNormalisation {
         return month;
     }
 
-    private static String cleanYear(final String year) {
+    public static String cleanYear(String year) {
+
+        year = stripRubbish(year);
 
         if (notGiven(year)) {
             return BLANK_YEAR;
@@ -165,6 +145,49 @@ public class DateNormalisation {
         } catch (NumberFormatException e) {
             return BLANK_YEAR;
         }
+    }
+
+    /**
+     * @param day the text to normalise
+     * @return that text representation of the day of week in a standard form
+     */
+    public static String normaliseDayOfWeek(String day) {
+
+        try {
+            return normalise(day, NORMALISED_DAY_NAMES, DAY_NAMES);
+
+        } catch (Exception e) {
+            return BLANK_DAY_OF_WEEK;
+        }
+    }
+
+    /**
+     * @param month the text to normalise
+     * @return that text representation of the month in a standard form
+     */
+    public static String normaliseMonth(String month) {
+
+        try {
+            return normalise(month, NORMALISED_MONTH_NAMES, MONTH_NAMES);
+
+        } catch (Exception e) {
+            return BLANK_MONTH;
+        }
+    }
+
+    private static String stripRubbish(String input) {
+
+        input = input.trim();
+        if (input.contains(" ")) {
+            input = input.substring(0, input.indexOf(" "));
+        }
+        if (input.contains("[")) {
+            input = input.substring(0, input.indexOf("["));
+        }
+        if (input.contains("(")) {
+            input = input.substring(0, input.indexOf("("));
+        }
+        return input.toLowerCase();
     }
 
     private static boolean notGiven(final String field) {
@@ -195,7 +218,7 @@ public class DateNormalisation {
 
     private static String normalise(String input, List<String> normalised_names, List<Set<String>> alternative_names) {
 
-        input = stripRubbish(input).toLowerCase();
+        input = stripRubbish(input);
 
         for (int i = 0; i < normalised_names.size(); i++) {
 
@@ -205,20 +228,5 @@ public class DateNormalisation {
         }
 
         throw new RuntimeException("Unrecognized: " + input);
-    }
-
-    public static String extractDay(String date) {
-
-        return cleanDay(date.split(DATE_SEPARATOR)[0]);
-    }
-
-    public static String extractMonth(String date) {
-
-        return normaliseMonth(cleanMonth(date.split(DATE_SEPARATOR)[1]));
-    }
-
-    public static String extractYear(String date) {
-
-        return cleanYear(date.split(DATE_SEPARATOR)[2]);
     }
 }
