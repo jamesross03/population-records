@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License along with linkage-java. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package uk.ac.standrews.cs.population_records.normalisation;
+package uk.ac.standrews.cs.population_records;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DateNormalisation {
+public class Normalisation {
 
     private static final String DATE_SEPARATOR = "/";
 
@@ -29,6 +29,7 @@ public class DateNormalisation {
     private static final String BLANK_DAY_OF_WEEK = "---";
     private static final String BLANK_MONTH = "--";
     private static final String BLANK_YEAR = "----";
+    private static final String BLANK_PLACE = "----";
 
     private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "0");
 
@@ -175,6 +176,17 @@ public class DateNormalisation {
         } catch (Exception e) {
             return BLANK_MONTH;
         }
+    }
+
+    public static String cleanPlace(String place) {
+
+        place = clean(place);
+
+        if (notGiven(place)) {
+            return BLANK_PLACE;
+        }
+
+        return place;
     }
 
     private static String clean(String input) {

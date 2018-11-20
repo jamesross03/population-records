@@ -1,10 +1,10 @@
-package uk.ac.standrews.cs.population_records.normalisation;
+package uk.ac.standrews.cs.population_records;
 
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class DateNormalisationTest {
+public class NormalisationTest {
 
     @Test
     public void normaliseDayOfWeek() {
@@ -31,7 +31,7 @@ public class DateNormalisationTest {
     @Test
     public void unknownDayOfWeek() {
 
-        assertEquals("---", DateNormalisation.normaliseDayOfWeek("february"));
+        assertEquals("---", Normalisation.normaliseDayOfWeek("february"));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class DateNormalisationTest {
     @Test
     public void unknownMonth() {
 
-        assertEquals("--", DateNormalisation.normaliseMonth("monday"));
+        assertEquals("--", Normalisation.normaliseMonth("monday"));
     }
 
     @Test
@@ -94,29 +94,29 @@ public class DateNormalisationTest {
     @Test
     public void extractFromDate() {
 
-        assertEquals("3", DateNormalisation.extractDay("3/05/1866"));
-        assertEquals("03", DateNormalisation.extractDay("03/05/1866"));
-        assertEquals("ng", DateNormalisation.extractDay("ng/05/1866"));
+        assertEquals("3", Normalisation.extractDay("3/05/1866"));
+        assertEquals("03", Normalisation.extractDay("03/05/1866"));
+        assertEquals("ng", Normalisation.extractDay("ng/05/1866"));
 
-        assertEquals("05", DateNormalisation.extractMonth("03/05/1866"));
-        assertEquals("May", DateNormalisation.extractMonth("3/May/1866"));
+        assertEquals("05", Normalisation.extractMonth("03/05/1866"));
+        assertEquals("May", Normalisation.extractMonth("3/May/1866"));
 
-        assertEquals("1866", DateNormalisation.extractYear("03/05/1866"));
-        assertEquals("66", DateNormalisation.extractYear("03/05/66"));
+        assertEquals("1866", Normalisation.extractYear("03/05/1866"));
+        assertEquals("66", Normalisation.extractYear("03/05/66"));
     }
 
     private void assertDayNormalisedTo(String expected, String actual) {
 
-        assertEquals(expected, DateNormalisation.normaliseDayOfWeek(actual));
+        assertEquals(expected, Normalisation.normaliseDayOfWeek(actual));
     }
 
     private void assertMonthNormalisedTo(String expected, String actual) {
 
-        assertEquals(expected, DateNormalisation.normaliseMonth(actual));
+        assertEquals(expected, Normalisation.normaliseMonth(actual));
     }
 
     private void assertDateCleanedTo(String expected, String day, String month, String year) {
 
-        assertEquals(expected, DateNormalisation.makeDate(DateNormalisation.cleanDay(day), DateNormalisation.normaliseMonth(DateNormalisation.cleanMonth(month)), DateNormalisation.cleanYear(year)));
+        assertEquals(expected, Normalisation.makeDate(Normalisation.cleanDay(day), Normalisation.normaliseMonth(Normalisation.cleanMonth(month)), Normalisation.cleanYear(year)));
     }
 }
