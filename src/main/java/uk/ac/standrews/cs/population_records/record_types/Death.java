@@ -135,25 +135,25 @@ public class Death extends StaticLXP {
     public static int SEX;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int FATHERS_FORENAME;
+    public static int FATHER_FORENAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int FATHERS_SURNAME;
+    public static int FATHER_SURNAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MOTHERS_FORENAME;
+    public static int MOTHER_FORENAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MOTHERS_SURNAME;
+    public static int MOTHER_SURNAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int MOTHERS_MAIDEN_SURNAME;
+    public static int MOTHER_MAIDEN_SURNAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int CHANGED_MOTHERS_MAIDEN_SURNAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int FATHERS_OCCUPATION;
+    public static int FATHER_OCCUPATION;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int YEAR_OF_REGISTRATION;
@@ -210,10 +210,10 @@ public class Death extends StaticLXP {
     public static int MARITAL_STATUS;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int SPOUSES_NAMES;
+    public static int SPOUSE_NAMES;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
-    public static int SPOUSES_OCCUPATIONS;
+    public static int SPOUSE_OCCUPATION;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MOTHER_DECEASED;
@@ -223,4 +223,34 @@ public class Death extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int CERTIFYING_DOCTOR;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int DECEASED_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MOTHER_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int FATHER_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int SPOUSE_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BIRTH_RECORD_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int PARENT_MARRIAGE_RECORD_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int FATHER_BIRTH_RECORD_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MOTHER_BIRTH_RECORD_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int SPOUSE_MARRIAGE_RECORD_IDENTITY;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int SPOUSE_BIRTH_RECORD_IDENTITY;
 }

@@ -117,6 +117,6 @@ public class NormalisationTest {
 
     private void assertDateCleanedTo(String expected, String day, String month, String year) {
 
-        assertEquals(expected, Normalisation.makeDate(Normalisation.cleanDay(day), Normalisation.normaliseMonth(Normalisation.cleanMonth(month)), Normalisation.cleanYear(year)));
+        assertEquals(expected, Normalisation.cleanDate(day, month, year));
     }
 }

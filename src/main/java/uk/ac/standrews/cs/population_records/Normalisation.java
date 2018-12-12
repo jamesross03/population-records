@@ -30,8 +30,10 @@ public class Normalisation {
     private static final String BLANK_MONTH = "--";
     private static final String BLANK_YEAR = "----";
     private static final String BLANK_PLACE = "----";
+    private static final String BLANK_OCCUPATION = "----";
+    private static final String BLANK_MARITAL_STATUS = "----";
 
-    private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "n", "none", "n/e", "0");
+    private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "n", "none", "n/e", "0", "unknown");
 
     private static final List<String> NORMALISED_DAY_NAMES = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
 
@@ -60,6 +62,8 @@ public class Normalisation {
             makeSet("nov", "november"),
             makeSet("dec", "december"));
 
+//    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     static {
 
         // Add the normalised names and indices to the recognised names.
@@ -70,6 +74,11 @@ public class Normalisation {
     public static String makeDate(String day, String month, String year) {
 
         return day + DATE_SEPARATOR + month + DATE_SEPARATOR + year;
+    }
+
+    public static String makeDate(String year) {
+
+        return makeDate(BLANK_DAY, BLANK_MONTH, year);
     }
 
     public static String extractDay(String date) {
@@ -85,6 +94,10 @@ public class Normalisation {
     public static String extractYear(String date) {
 
         return date.split(DATE_SEPARATOR)[2];
+    }
+
+    public static String cleanDate(final String day, final String month, final String year) {
+        return makeDate(cleanDay(day), normaliseMonth(cleanMonth(month)), cleanYear(year));
     }
 
     public static String cleanDay(String day) {
@@ -178,23 +191,24 @@ public class Normalisation {
         }
     }
 
-    public static String cleanPlace(String place) {
+    public static String cleanPlace(String input) {
 
-        place = place.trim().toLowerCase();
-        place = place.replace(",", "");
+        return clean(input, BLANK_PLACE);
+    }
 
-        while (place.contains("  ")) {
-            place = place.replace("  ", " ");
-        }
+    public static String cleanOccupation(String input) {
 
-        if (notGiven(place)) {
-            return BLANK_PLACE;
-        }
+        return clean(input, BLANK_OCCUPATION);
+    }
 
-        return place;
+    public static String cleanMaritalStatus(String input) {
+
+        return clean(input, BLANK_MARITAL_STATUS);
     }
 
     private static String clean(String input) {
+
+        if (input == null) return null;
 
         input = input.trim();
         if (input.contains(" ")) {
@@ -206,12 +220,29 @@ public class Normalisation {
         if (input.contains("(")) {
             input = input.substring(0, input.indexOf("("));
         }
+        input = input.replace(",", "");
+
+        while (input.contains("  ")) {
+            input = input.replace("  ", " ");
+        }
+
         return input.toLowerCase();
+    }
+
+    public static String clean(String input, String blank) {
+
+        input = clean(input);
+
+        if (notGiven(input)) {
+            return blank;
+        }
+
+        return input;
     }
 
     static boolean notGiven(final String field) {
 
-        return NOT_GIVEN_STRINGS.contains(field);
+        return field == null | NOT_GIVEN_STRINGS.contains(field);
     }
 
     private static Set<String> makeSet(String... strings) {

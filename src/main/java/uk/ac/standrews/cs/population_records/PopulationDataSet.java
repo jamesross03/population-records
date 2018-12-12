@@ -110,6 +110,14 @@ public abstract class PopulationDataSet extends DerivedDataSet {
         record[Marriage.PLACE_OF_MARRIAGE] = Normalisation.cleanPlace(record[Marriage.PLACE_OF_MARRIAGE]);
         record[Marriage.BRIDE_ADDRESS] = Normalisation.cleanPlace(record[Marriage.BRIDE_ADDRESS]);
         record[Marriage.GROOM_ADDRESS] = Normalisation.cleanPlace(record[Marriage.GROOM_ADDRESS]);
+
+        record[Marriage.BRIDE_OCCUPATION] = Normalisation.cleanOccupation(record[Marriage.BRIDE_OCCUPATION]);
+        record[Marriage.GROOM_OCCUPATION] = Normalisation.cleanOccupation(record[Marriage.GROOM_OCCUPATION]);
+        record[Marriage.BRIDE_FATHER_OCCUPATION] = Normalisation.cleanOccupation(record[Marriage.BRIDE_FATHER_OCCUPATION]);
+        record[Marriage.GROOM_FATHER_OCCUPATION] = Normalisation.cleanOccupation(record[Marriage.GROOM_FATHER_OCCUPATION]);
+
+        record[Marriage.BRIDE_MARITAL_STATUS] = Normalisation.cleanMaritalStatus(record[Marriage.BRIDE_MARITAL_STATUS]);
+        record[Marriage.GROOM_MARITAL_STATUS] = Normalisation.cleanMaritalStatus(record[Marriage.GROOM_MARITAL_STATUS]);
     }
 
     protected InputStream getResourceStream(final Path path) {
