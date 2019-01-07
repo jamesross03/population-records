@@ -45,10 +45,14 @@ public class RecordRepository {
     private IBucket<Marriage> marriages;
     private IBucket<Death> deaths;
 
-    public RecordRepository(Path store_path, String repository_name) throws Exception {
+    public RecordRepository(Path store_path, String repository_name) {
 
         store = new Store(store_path);
-        initialiseBuckets(repository_name);
+        try {
+            initialiseBuckets(repository_name);
+        } catch (RepositoryException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Iterable<Birth> getBirths() {
