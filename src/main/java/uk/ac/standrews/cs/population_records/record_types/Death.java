@@ -156,6 +156,9 @@ public class Death extends StaticLXP {
     public static int FATHER_OCCUPATION;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MOTHER_OCCUPATION;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int YEAR_OF_REGISTRATION;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)

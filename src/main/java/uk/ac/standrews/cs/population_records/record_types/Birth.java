@@ -148,6 +148,9 @@ public class Birth extends StaticLXP {
     public static int CHANGED_MOTHER_MAIDEN_SURNAME;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MOTHER_OCCUPATION;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int FATHER_OCCUPATION;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
@@ -197,6 +200,9 @@ public class Birth extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int PARENTS_PLACE_OF_MARRIAGE;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int PLACE_OF_BIRTH;
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int INFORMANT_DID_NOT_SIGN;
@@ -263,4 +269,5 @@ public class Birth extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MARRIAGE_RECORD_IDENTITY5;
+
 }
