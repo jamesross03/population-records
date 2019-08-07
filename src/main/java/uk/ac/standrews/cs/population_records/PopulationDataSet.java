@@ -32,10 +32,6 @@ public abstract class PopulationDataSet extends DerivedDataSet {
     protected PopulationDataSet() throws IOException {
     }
 
-    protected PopulationDataSet(Path path) throws IOException {
-        super(path);
-    }
-
     @Override
     public DataSet getSourceDataSet() throws IOException {
 
