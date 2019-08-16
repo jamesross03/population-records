@@ -53,6 +53,7 @@ public class RecordRepository {
         } catch (RepositoryException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public Iterable<Birth> getBirths() {
@@ -144,5 +145,9 @@ public class RecordRepository {
             deaths = input_repository.makeBucket(DEATHS_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Death.class);
             marriages = input_repository.makeBucket(MARRIAGES_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Marriage.class);
         }
+    }
+
+    public void stopStoreWatcher() {
+        store.getWatcher().stopService();
     }
 }
