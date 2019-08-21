@@ -35,9 +35,9 @@ import java.util.List;
 
 public class RecordRepository {
 
-    private static final String BIRTHS_BUCKET_NAME = "birth_records";
-    private static final String DEATHS_BUCKET_NAME = "death_records";
-    private static final String MARRIAGES_BUCKET_NAME = "marriage_records";
+    public static final String BIRTHS_BUCKET_NAME = "birth_records";
+    public static final String DEATHS_BUCKET_NAME = "death_records";
+    public static final String MARRIAGES_BUCKET_NAME = "marriage_records";
 
     private IStore store;
 
@@ -45,9 +45,12 @@ public class RecordRepository {
     private IBucket<Marriage> marriages;
     private IBucket<Death> deaths;
 
+    private String repository_name;
+
     public RecordRepository(Path store_path, String repository_name) {
 
         store = new Store(store_path);
+        this.repository_name = repository_name;
         try {
             initialiseBuckets(repository_name);
         } catch (RepositoryException e) {
@@ -126,28 +129,120 @@ public class RecordRepository {
         };
     }
 
-    private void initialiseBuckets(String repository_name) throws RepositoryException {
+    public void initialiseBuckets(String repository_name) throws RepositoryException {
 
+        IRepository input_repository;
         try {
-            IRepository input_repository = store.getRepository(repository_name);
-
-            births = input_repository.getBucket(BIRTHS_BUCKET_NAME, Birth.class);
-            deaths = input_repository.getBucket(DEATHS_BUCKET_NAME, Death.class);
-            marriages = input_repository.getBucket(MARRIAGES_BUCKET_NAME, Marriage.class);
-
+            input_repository = store.getRepository(repository_name);
         } catch (RepositoryException e) {
-
             // The repository hasn't previously been initialised.
+            input_repository = store.makeRepository(repository_name);
+        }
 
-            IRepository input_repository = store.makeRepository(repository_name);
-
+        try{
+            births = input_repository.getBucket(BIRTHS_BUCKET_NAME, Birth.class);
+        } catch (RepositoryException e) {
+            // The bucket hasn't previously been initialised.
             births = input_repository.makeBucket(BIRTHS_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Birth.class);
+        }
+
+        try{
+            deaths = input_repository.getBucket(DEATHS_BUCKET_NAME, Death.class);
+        } catch (RepositoryException e) {
+            // The bucket hasn't previously been initialised.
             deaths = input_repository.makeBucket(DEATHS_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Death.class);
+        }
+
+        try{
+            marriages = input_repository.getBucket(MARRIAGES_BUCKET_NAME, Marriage.class);
+        } catch (RepositoryException e) {
+            // The bucket hasn't previously been initialised.
             marriages = input_repository.makeBucket(MARRIAGES_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Marriage.class);
         }
+    }
+
+    public void setBirthsCacheSize(int size) {
+//        births.setCacheSize((int) (births.size() * 1.1));
+        try {
+            births.setCacheSize(size);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setDeathsCacheSize(int size) {
+        try {
+            deaths.setCacheSize(size);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setMarriagesCacheSize(int size) {
+        try {
+            marriages.setCacheSize(size);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getNumberOfBirths() throws BucketException {
+        return births.size();
+    }
+
+    public int getNumberOfDeaths() throws BucketException {
+        return deaths.size();
+    }
+
+    public int getNumberOfMarriages() throws BucketException {
+        return marriages.size();
+    }
+
+    public void deleteBirthsBucket() throws RepositoryException {
+        store.getRepository(repository_name).deleteBucket(BIRTHS_BUCKET_NAME);
+    }
+
+    public void deleteDeathsBucket() throws RepositoryException {
+        store.getRepository(repository_name).deleteBucket(DEATHS_BUCKET_NAME);
+    }
+
+    public void deleteMarriagesBucket() throws RepositoryException {
+        store.getRepository(repository_name).deleteBucket(MARRIAGES_BUCKET_NAME);
+    }
+
+    public void deleteBucket(String bucketName) throws RepositoryException {
+        switch (bucketName) {
+            case BIRTHS_BUCKET_NAME:
+                deleteBirthsBucket();
+                break;
+            case MARRIAGES_BUCKET_NAME:
+                deleteMarriagesBucket();
+                break;
+            case DEATHS_BUCKET_NAME:
+                deleteDeathsBucket();
+                break;
+        }
+        throw new RuntimeException("Bucket not found: " + bucketName);
     }
 
     public void stopStoreWatcher() {
         store.getWatcher().stopService();
     }
+
+    public static String[] getBucketNames() {
+        return new String[]{BIRTHS_BUCKET_NAME, DEATHS_BUCKET_NAME, MARRIAGES_BUCKET_NAME};
+    }
+
+    public IBucket getBucket(String bucketName) {
+        switch (bucketName) {
+            case BIRTHS_BUCKET_NAME:
+                return births;
+            case MARRIAGES_BUCKET_NAME:
+                return marriages;
+            case DEATHS_BUCKET_NAME:
+                return deaths;
+        }
+        throw new RuntimeException("Bucket not found: " + bucketName);
+    }
+
 }
