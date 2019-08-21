@@ -214,13 +214,13 @@ public class RecordRepository {
         switch (bucketName) {
             case BIRTHS_BUCKET_NAME:
                 deleteBirthsBucket();
-                break;
+                return;
             case MARRIAGES_BUCKET_NAME:
                 deleteMarriagesBucket();
-                break;
+                return;
             case DEATHS_BUCKET_NAME:
                 deleteDeathsBucket();
-                break;
+                return;
         }
         throw new RuntimeException("Bucket not found: " + bucketName);
     }
