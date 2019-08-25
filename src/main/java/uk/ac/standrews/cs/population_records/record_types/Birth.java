@@ -270,4 +270,16 @@ public class Birth extends StaticLXP {
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int MARRIAGE_RECORD_IDENTITY5;
 
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_RECORD_IDENTITY6;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_RECORD_IDENTITY7;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int MARRIAGE_RECORD_IDENTITY8;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int IMMIGRATION_GENERATION;
+
 }
