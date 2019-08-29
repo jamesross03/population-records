@@ -16,7 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.storr.impl.Metadata;
+import uk.ac.standrews.cs.storr.impl.LXPMetadata;
 import uk.ac.standrews.cs.storr.impl.StaticLXP;
 import uk.ac.standrews.cs.storr.impl.exceptions.IllegalKeyException;
 import uk.ac.standrews.cs.storr.impl.exceptions.PersistentObjectException;
@@ -40,17 +40,17 @@ public class Marriage extends StaticLXP {
     public static final String ROLE_GROOMS_MOTHER = "ROLE_GROOMS_MOTHER";
     public static final String ROLE_GROOMS_FATHER = "ROLE_GROOMS_FATHER";
 
-    private static Metadata static_metadata;
+    private static LXPMetadata static_metadata;
     static {
 
         try {
-            static_metadata = new Metadata(Marriage.class, "Marriage");
+            static_metadata = new LXPMetadata(Marriage.class, "Marriage");
 
         } catch (Exception e) {
             ErrorHandling.exceptionError(e);
         }
     }
-    public static Metadata getStaticMetaData() {
+    public static LXPMetadata getStaticMetaData() {
         return static_metadata;
     }
 
@@ -81,7 +81,7 @@ public class Marriage extends StaticLXP {
     }
 
     @Override
-    public Metadata getMetaData() {
+    public LXPMetadata getMetaData() {
         return static_metadata;
     }
 

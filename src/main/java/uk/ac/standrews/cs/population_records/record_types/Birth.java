@@ -16,7 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.storr.impl.Metadata;
+import uk.ac.standrews.cs.storr.impl.LXPMetadata;
 import uk.ac.standrews.cs.storr.impl.StaticLXP;
 import uk.ac.standrews.cs.storr.impl.exceptions.PersistentObjectException;
 import uk.ac.standrews.cs.storr.interfaces.IBucket;
@@ -35,11 +35,11 @@ public class Birth extends StaticLXP {
     public static final String ROLE_MOTHER = "ROLE_MOTHER";
     public static final String ROLE_FATHER = "ROLE_FATHER";
 
-    private static Metadata static_metadata;
+    private static LXPMetadata static_metadata;
     static {
 
         try {
-            static_metadata = new Metadata(Birth.class, "Birth");
+            static_metadata = new LXPMetadata(Birth.class, "Birth");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -73,7 +73,7 @@ public class Birth extends StaticLXP {
     }
 
     @Override
-    public Metadata getMetaData() {
+    public LXPMetadata getMetaData() {
         return static_metadata;
     }
 
