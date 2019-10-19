@@ -293,4 +293,10 @@ public class Marriage extends StaticLXP {
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int GROOM_IMMIGRATION_GENERATION;
 
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int GROOM_FULL_NAME;
+
+    @LXP_SCALAR(type = LXPBaseType.STRING)
+    public static int BRIDE_FULL_NAME;
+
 }
