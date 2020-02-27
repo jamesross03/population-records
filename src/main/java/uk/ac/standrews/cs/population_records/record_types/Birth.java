@@ -34,6 +34,7 @@ public class Birth extends StaticLXP {
     public static final String ROLE_BABY = "ROLE_BABY";
     public static final String ROLE_MOTHER = "ROLE_MOTHER";
     public static final String ROLE_FATHER = "ROLE_FATHER";
+    public static final String ROLE_PARENTS = "ROLE_PARENTS"; // When both parents are matched
 
     private static LXPMetadata static_metadata;
     static {

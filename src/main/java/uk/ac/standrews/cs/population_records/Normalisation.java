@@ -82,18 +82,27 @@ public class Normalisation {
     }
 
     public static String extractDay(String date) {
-
-        return date.split(DATE_SEPARATOR)[0];
+        try {
+            return date.split(DATE_SEPARATOR)[0];
+        } catch( Exception e ) {
+            return BLANK_DAY;
+        }
     }
 
     public static String extractMonth(String date) {
-
-        return date.split(DATE_SEPARATOR)[1];
+        try {
+            return date.split(DATE_SEPARATOR)[1];
+        } catch( Exception e ) {
+            return BLANK_MONTH;
+        }
     }
 
     public static String extractYear(String date) {
-
-        return date.split(DATE_SEPARATOR)[2];
+        try {
+            return date.split(DATE_SEPARATOR)[2];
+        } catch( Exception e ) {
+            return BLANK_YEAR;
+        }
     }
 
     public static String cleanDate(final String day, final String month, final String year) {

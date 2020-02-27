@@ -39,6 +39,7 @@ public class Marriage extends StaticLXP {
     public static final String ROLE_BRIDES_FATHER = "ROLE_BRIDES_FATHER";
     public static final String ROLE_GROOMS_MOTHER = "ROLE_GROOMS_MOTHER";
     public static final String ROLE_GROOMS_FATHER = "ROLE_GROOMS_FATHER";
+    public static final String ROLE_PARENTS = "ROLE_PARENTS";  // When both parents are matched
 
     private static LXPMetadata static_metadata;
     static {
