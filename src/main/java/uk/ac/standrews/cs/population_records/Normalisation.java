@@ -16,6 +16,8 @@
  */
 package uk.ac.standrews.cs.population_records;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.Set;
 public class Normalisation {
 
     private static final String DATE_SEPARATOR = "/";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd" + DATE_SEPARATOR + "MM" + DATE_SEPARATOR + "yyyy");
 
     private static final String BLANK_DAY = "--";
     private static final String BLANK_DAY_OF_WEEK = "---";
@@ -61,8 +64,6 @@ public class Normalisation {
             makeSet("oct", "october"),
             makeSet("nov", "november"),
             makeSet("dec", "december"));
-
-//    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     static {
 
@@ -198,6 +199,11 @@ public class Normalisation {
         } catch (Exception e) {
             return BLANK_MONTH;
         }
+    }
+
+    public static LocalDate parseDate(String date) {
+
+        return LocalDate.parse(date, DATE_FORMATTER);
     }
 
     public static String cleanPlace(String input) {
