@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>population-records</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
     <name>population-records</name>
 
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.github.stacs-srg</groupId>
             <artifactId>ciesvium</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </dependency>
 
     </dependencies>
