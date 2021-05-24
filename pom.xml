@@ -19,7 +19,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.github.stacs-srg</groupId>
+            <groupId>uk.ac.standrews.cs</groupId>
             <artifactId>neo-storr</artifactId>
             <version>1.0.0</version>
         </dependency>
