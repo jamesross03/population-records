@@ -16,20 +16,19 @@
  */
 package uk.ac.standrews.cs.population_records;
 
+import uk.ac.standrews.cs.neoStorr.impl.LXP;
+import uk.ac.standrews.cs.neoStorr.impl.Store;
+import uk.ac.standrews.cs.neoStorr.impl.exceptions.BucketException;
+import uk.ac.standrews.cs.neoStorr.impl.exceptions.RepositoryException;
+import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
+import uk.ac.standrews.cs.neoStorr.interfaces.IRepository;
+import uk.ac.standrews.cs.neoStorr.interfaces.IStore;
 import uk.ac.standrews.cs.population_records.record_types.Birth;
 import uk.ac.standrews.cs.population_records.record_types.Death;
 import uk.ac.standrews.cs.population_records.record_types.Marriage;
-import uk.ac.standrews.cs.storr.impl.BucketKind;
-import uk.ac.standrews.cs.storr.impl.LXP;
-import uk.ac.standrews.cs.storr.impl.Store;
-import uk.ac.standrews.cs.storr.impl.exceptions.BucketException;
-import uk.ac.standrews.cs.storr.impl.exceptions.RepositoryException;
-import uk.ac.standrews.cs.storr.interfaces.IBucket;
-import uk.ac.standrews.cs.storr.interfaces.IRepository;
-import uk.ac.standrews.cs.storr.interfaces.IStore;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
-import java.nio.file.Path;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,13 +46,13 @@ public class RecordRepository {
 
     private String repository_name;
 
-    public RecordRepository(Path store_path, String repository_name) {
+    public RecordRepository(String repository_name) {
 
-        store = new Store(store_path);
+        store = new Store();
         this.repository_name = repository_name;
         try {
             initialiseBuckets(repository_name);
-        } catch (RepositoryException e) {
+        } catch (RepositoryException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -129,35 +128,35 @@ public class RecordRepository {
         };
     }
 
-    public void initialiseBuckets(String repository_name) throws RepositoryException {
+    public void initialiseBuckets(String repository_name) throws RepositoryException, IOException {
 
         IRepository input_repository;
         try {
-            input_repository = store.getRepository(repository_name);
+            input_repository = Store.getInstance().getRepository(repository_name);
         } catch (RepositoryException e) {
             // The repository hasn't previously been initialised.
-            input_repository = store.makeRepository(repository_name);
+            input_repository = Store.getInstance().makeRepository(repository_name);
         }
 
         try{
             births = input_repository.getBucket(BIRTHS_BUCKET_NAME, Birth.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
-            births = input_repository.makeBucket(BIRTHS_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Birth.class);
+            births = input_repository.makeBucket(BIRTHS_BUCKET_NAME, Birth.class);
         }
 
         try{
             deaths = input_repository.getBucket(DEATHS_BUCKET_NAME, Death.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
-            deaths = input_repository.makeBucket(DEATHS_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Death.class);
+            deaths = input_repository.makeBucket(DEATHS_BUCKET_NAME, Death.class);
         }
 
         try{
             marriages = input_repository.getBucket(MARRIAGES_BUCKET_NAME, Marriage.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
-            marriages = input_repository.makeBucket(MARRIAGES_BUCKET_NAME, BucketKind.DIRECTORYBACKED, Marriage.class);
+            marriages = input_repository.makeBucket(MARRIAGES_BUCKET_NAME, Marriage.class);
         }
     }
 
@@ -199,15 +198,15 @@ public class RecordRepository {
     }
 
     public void deleteBirthsBucket() throws RepositoryException {
-        store.getRepository(repository_name).deleteBucket(BIRTHS_BUCKET_NAME);
+        Store.getInstance().getRepository(repository_name).deleteBucket(BIRTHS_BUCKET_NAME);
     }
 
     public void deleteDeathsBucket() throws RepositoryException {
-        store.getRepository(repository_name).deleteBucket(DEATHS_BUCKET_NAME);
+        Store.getInstance().getRepository(repository_name).deleteBucket(DEATHS_BUCKET_NAME);
     }
 
     public void deleteMarriagesBucket() throws RepositoryException {
-        store.getRepository(repository_name).deleteBucket(MARRIAGES_BUCKET_NAME);
+        Store.getInstance().getRepository(repository_name).deleteBucket(MARRIAGES_BUCKET_NAME);
     }
 
     public void deleteBucket(String bucketName) throws RepositoryException {
@@ -223,10 +222,6 @@ public class RecordRepository {
                 return;
         }
         throw new RuntimeException("Bucket not found: " + bucketName);
-    }
-
-    public void stopStoreWatcher() {
-        store.getWatcher().stopService();
     }
 
     public static String[] getBucketNames() {

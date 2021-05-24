@@ -16,19 +16,20 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.storr.impl.LXPMetadata;
-import uk.ac.standrews.cs.storr.impl.StaticLXP;
-import uk.ac.standrews.cs.storr.impl.exceptions.IllegalKeyException;
-import uk.ac.standrews.cs.storr.impl.exceptions.PersistentObjectException;
-import uk.ac.standrews.cs.storr.interfaces.IBucket;
-import uk.ac.standrews.cs.storr.types.LXPBaseType;
-import uk.ac.standrews.cs.storr.types.LXP_SCALAR;
-import uk.ac.standrews.cs.utilities.JSONReader;
+
+import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
+import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
+import uk.ac.standrews.cs.neoStorr.impl.exceptions.IllegalKeyException;
+import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
+import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
+import uk.ac.standrews.cs.neoStorr.types.LXPBaseType;
+import uk.ac.standrews.cs.neoStorr.types.LXP_SCALAR;
 import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Marriage extends StaticLXP {
@@ -60,9 +61,9 @@ public class Marriage extends StaticLXP {
         super();
     }
 
-    public Marriage(long persistent_object_id, JSONReader reader, IBucket bucket) throws PersistentObjectException, IllegalKeyException {
+    public Marriage(long persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException, IllegalKeyException {
 
-        super(persistent_object_id, reader, bucket);
+        super(persistent_object_id, properties, bucket);
     }
 
     public Marriage(DataSet data, List<String> record) {
