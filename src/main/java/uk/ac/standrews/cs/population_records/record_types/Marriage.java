@@ -57,7 +57,6 @@ public class Marriage extends StaticLXP {
     }
 
     public Marriage() {
-
         super();
     }
 
