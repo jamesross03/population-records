@@ -93,7 +93,7 @@ public class Marriage extends StaticLXP {
 
     public static Iterable<Marriage> convertToRecords(DataSet data_set) {
 
-        return () -> new Iterator<Marriage>() {
+        return () -> new Iterator<>() {
 
             int row = 0;
 

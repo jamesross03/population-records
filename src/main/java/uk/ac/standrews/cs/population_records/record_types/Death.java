@@ -90,7 +90,7 @@ public class Death extends StaticLXP {
 
     public static Iterable<Death> convertToRecords(DataSet data_set) {
 
-        return () -> new Iterator<Death>() {
+        return () -> new Iterator<>() {
 
             int row = 0;
 

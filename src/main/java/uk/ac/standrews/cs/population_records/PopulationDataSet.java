@@ -67,14 +67,6 @@ public abstract class PopulationDataSet extends DerivedDataSet {
             @Override
             public List<String> mapRecord(List<String> record, List<String> labels) {
 
-//                System.out.println("record:");
-//                for (String s : record) System.out.println("\"" + s + "\"");
-//                System.out.println();
-//                System.out.println("labels:");
-//                for (String s : labels) System.out.println("\"" + s + "\"");
-//                System.out.println();
-//
-
                 final String[] new_record = new String[getConvertedHeadings().size()];
 
                 addFields(record, labels, new_record);
@@ -158,13 +150,6 @@ public abstract class PopulationDataSet extends DerivedDataSet {
 
             int existing_record_index = labels.indexOf(raw_label);
             int new_record_index = getConvertedHeadings().indexOf(converted_label);
-
-//            System.out.println("raw label: " + "\"" + raw_label + "\"");
-//            System.out.println("converted label: " + "\"" + converted_label + "\"");
-//            System.out.println("existing_record_index: " + existing_record_index);
-//            System.out.println("new_record_index: " + new_record_index);
-//            System.out.println("new_record size: " + new_record.length);
-//            System.out.println();
 
             new_record[new_record_index] = record.get(existing_record_index).trim();
         }
