@@ -136,9 +136,9 @@ public abstract class PopulationDataSet extends DerivedDataSet {
         record[Marriage.GROOM_MARITAL_STATUS] = Normalisation.cleanMaritalStatus(record[Marriage.GROOM_MARITAL_STATUS]);
     }
 
-    protected InputStream getResourceStream(final Path path) {
+    protected InputStream getResourceStream(final String path) {
 
-        return getClass().getResourceAsStream(path.toString());
+        return getClass().getResourceAsStream(path);
     }
 
     private void addFields(List<String> record, List<String> labels, String[] new_record) {
