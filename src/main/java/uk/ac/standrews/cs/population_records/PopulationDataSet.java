@@ -45,6 +45,8 @@ public abstract class PopulationDataSet extends DerivedDataSet {
 
     protected abstract void cleanFieldValues(String[] record);
 
+    protected static final String RESOURCE_PATH_SEPARATOR = "/";
+
     protected PopulationDataSet() throws IOException {
     }
 
