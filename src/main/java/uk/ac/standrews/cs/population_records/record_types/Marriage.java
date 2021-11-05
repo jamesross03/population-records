@@ -16,7 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-
 import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.IllegalKeyException;
@@ -24,7 +23,6 @@ import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
 import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
 import uk.ac.standrews.cs.neoStorr.types.LXPBaseType;
 import uk.ac.standrews.cs.neoStorr.types.LXP_SCALAR;
-import uk.ac.standrews.cs.utilities.archive.ErrorHandling;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 import java.util.Iterator;
@@ -40,7 +38,9 @@ public class Marriage extends StaticLXP {
     public static final String ROLE_BRIDES_FATHER = "ROLE_BRIDES_FATHER";
     public static final String ROLE_GROOMS_MOTHER = "ROLE_GROOMS_MOTHER";
     public static final String ROLE_GROOMS_FATHER = "ROLE_GROOMS_FATHER";
-    public static final String ROLE_PARENTS = "ROLE_PARENTS";  // When both parents are matched
+    public static final String ROLE_SPOUSES = "ROLE_SPOUSES";  // When both bride and groom are matched
+    public static final String ROLE_BRIDES_PARENTS = "ROLE_BRIDES_PARENTS";  // When both bride's parents are matched
+    public static final String ROLE_GROOMS_PARENTS = "ROLE_GROOMS_PARENTS";  // When both groom's parents are matched
 
     private static LXPMetadata static_metadata;
     static {
@@ -49,7 +49,7 @@ public class Marriage extends StaticLXP {
             static_metadata = new LXPMetadata(Marriage.class, "Marriage");
 
         } catch (Exception e) {
-            ErrorHandling.exceptionError(e);
+            throw new RuntimeException(e);
         }
     }
     public static LXPMetadata getStaticMetaData() {
@@ -78,7 +78,7 @@ public class Marriage extends StaticLXP {
 
     @Override
     public int hashCode() {
-        return new Long(getId()).hashCode();
+        return Long.valueOf(getId()).hashCode();
     }
 
     @Override
@@ -299,5 +299,4 @@ public class Marriage extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int BRIDE_FULL_NAME;
-
 }

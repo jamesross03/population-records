@@ -16,7 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-
 import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.IllegalKeyException;
@@ -37,6 +36,7 @@ public class Death extends StaticLXP {
     public static final String ROLE_SPOUSE = "ROLE_SPOUSE";
     public static final String ROLE_MOTHER = "ROLE_MOTHER";
     public static final String ROLE_FATHER = "ROLE_FATHER";
+    public static final String ROLE_PARENTS = "ROLE_PARENTS"; // When both parents are matched
 
     private static LXPMetadata static_metadata;
     static {
@@ -75,7 +75,7 @@ public class Death extends StaticLXP {
 
     @Override
     public int hashCode() {
-        return new Long(this.getId()).hashCode();
+        return Long.valueOf(this.getId()).hashCode();
     }
 
     @Override

@@ -85,7 +85,7 @@ public class Normalisation {
     public static String extractDay(String date) {
         try {
             return date.split(DATE_SEPARATOR)[0];
-        } catch( Exception e ) {
+        } catch (Exception e) {
             return BLANK_DAY;
         }
     }
@@ -93,7 +93,7 @@ public class Normalisation {
     public static String extractMonth(String date) {
         try {
             return date.split(DATE_SEPARATOR)[1];
-        } catch( Exception e ) {
+        } catch (Exception e) {
             return BLANK_MONTH;
         }
     }
@@ -101,7 +101,7 @@ public class Normalisation {
     public static String extractYear(String date) {
         try {
             return date.split(DATE_SEPARATOR)[2];
-        } catch( Exception e ) {
+        } catch (Exception e) {
             return BLANK_YEAR;
         }
     }

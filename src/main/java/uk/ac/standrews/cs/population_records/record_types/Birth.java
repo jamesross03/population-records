@@ -16,7 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-
 import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
@@ -86,7 +85,7 @@ public class Birth extends StaticLXP {
 
     public static Iterable<Birth> convertToRecords(DataSet data_set) {
 
-        return () -> new Iterator<Birth>() {
+        return () -> new Iterator<>() {
 
             int row = 0;
 
@@ -283,5 +282,4 @@ public class Birth extends StaticLXP {
 
     @LXP_SCALAR(type = LXPBaseType.STRING)
     public static int IMMIGRATION_GENERATION;
-
 }

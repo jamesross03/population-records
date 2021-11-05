@@ -105,7 +105,7 @@ public class RecordRepository {
 
     private <T extends LXP> Iterable<T> getRecords(IBucket<T> bucket) {
 
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
 
             final List<Long> object_ids = bucket.getOids();
             final int bucket_size = object_ids.size();
@@ -138,21 +138,21 @@ public class RecordRepository {
             input_repository = Store.getInstance().makeRepository(repository_name);
         }
 
-        try{
+        try {
             births = input_repository.getBucket(BIRTHS_BUCKET_NAME, Birth.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
             births = input_repository.makeBucket(BIRTHS_BUCKET_NAME, Birth.class);
         }
 
-        try{
+        try {
             deaths = input_repository.getBucket(DEATHS_BUCKET_NAME, Death.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
             deaths = input_repository.makeBucket(DEATHS_BUCKET_NAME, Death.class);
         }
 
-        try{
+        try {
             marriages = input_repository.getBucket(MARRIAGES_BUCKET_NAME, Marriage.class);
         } catch (RepositoryException e) {
             // The bucket hasn't previously been initialised.
@@ -161,7 +161,6 @@ public class RecordRepository {
     }
 
     public void setBirthsCacheSize(int size) {
-//        births.setCacheSize((int) (births.size() * 1.1));
         try {
             births.setCacheSize(size);
         } catch (Exception e) {
@@ -239,5 +238,4 @@ public class RecordRepository {
         }
         throw new RuntimeException("Bucket not found: " + bucketName);
     }
-
 }
