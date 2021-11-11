@@ -97,6 +97,7 @@ public class NormalisationTest {
         assertDateCleanedTo("03/05/1966", "3", "May", "1966");
         assertDateCleanedTo("03/--/1966", "3", "JSND", "1966");
         assertDateCleanedTo("--/--/1966", "WFGDS", "JSND", "1966");
+        assertDateCleanedTo("--/03/1868", "0", "3", "1868");
         assertDateCleanedTo("03/05/----", "3", "May", "LSHGD");
 
         assertDateCleanedTo("03/05/----", "3", "5", "QHAY");

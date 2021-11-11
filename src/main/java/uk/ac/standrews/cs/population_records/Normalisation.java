@@ -36,6 +36,8 @@ public class Normalisation {
     private static final String BLANK_OCCUPATION = "----";
     private static final String BLANK_MARITAL_STATUS = "----";
 
+    public static final String NOT_GIVEN_PLACEHOLDER = "----";
+
     private static final List<String> NOT_GIVEN_STRINGS = Arrays.asList("", "na", "ng", "n", "none", "n/e", "0", "unknown");
 
     private static final List<String> NORMALISED_DAY_NAMES = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");

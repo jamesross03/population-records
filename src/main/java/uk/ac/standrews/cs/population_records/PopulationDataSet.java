@@ -174,9 +174,9 @@ public abstract class PopulationDataSet extends DerivedDataSet {
         for (String source_field_label : source_field_labels) {
 
             String next_field_value = record.get(raw_record_labels.indexOf(source_field_label)).trim();
-            if (Normalisation.notGiven(next_field_value)) next_field_value = "";
+            if (Normalisation.notGiven(next_field_value)) next_field_value = Normalisation.NOT_GIVEN_PLACEHOLDER;
 
-            if (builder.length() > 0 && next_field_value.length() > 0) {
+            if (builder.length() > 0) {
                 builder.append(" ");
             }
             builder.append(next_field_value);
