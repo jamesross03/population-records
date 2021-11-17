@@ -38,24 +38,20 @@ public class RecordRepository {
     public static final String DEATHS_BUCKET_NAME = "death_records";
     public static final String MARRIAGES_BUCKET_NAME = "marriage_records";
 
-    private IStore store;
-
     private IBucket<Birth> births;
     private IBucket<Marriage> marriages;
     private IBucket<Death> deaths;
 
-    private String repository_name;
+    private final String repository_name;
 
     public RecordRepository(String repository_name) {
 
-        store = new Store();
         this.repository_name = repository_name;
         try {
             initialiseBuckets(repository_name);
         } catch (RepositoryException | IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public Iterable<Birth> getBirths() {
