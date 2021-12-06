@@ -20,9 +20,10 @@ import uk.ac.standrews.cs.neoStorr.impl.LXP;
 import uk.ac.standrews.cs.neoStorr.impl.Store;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.BucketException;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.RepositoryException;
+import uk.ac.standrews.cs.neoStorr.impl.transaction.interfaces.ITransaction;
+import uk.ac.standrews.cs.neoStorr.impl.transaction.interfaces.ITransactionManager;
 import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
 import uk.ac.standrews.cs.neoStorr.interfaces.IRepository;
-import uk.ac.standrews.cs.neoStorr.interfaces.IStore;
 import uk.ac.standrews.cs.population_records.record_types.Birth;
 import uk.ac.standrews.cs.population_records.record_types.Death;
 import uk.ac.standrews.cs.population_records.record_types.Marriage;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public class RecordRepository {
+public class RecordRepository implements AutoCloseable {
 
     public static final String BIRTHS_BUCKET_NAME = "birth_records";
     public static final String DEATHS_BUCKET_NAME = "death_records";
@@ -49,9 +50,14 @@ public class RecordRepository {
         this.repository_name = repository_name;
         try {
             initialiseBuckets(repository_name);
-        } catch (RepositoryException | IOException e) {
+
+        } catch (RepositoryException | BucketException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void close() {
+        Store.getInstance().close();
     }
 
     public Iterable<Birth> getBirths() {
@@ -80,30 +86,54 @@ public class RecordRepository {
 
     public void importBirthRecords(DataSet birth_records) throws BucketException {
 
+        final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
+        final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
+        transaction_manager.setAutoCommit(false);
+        final ITransaction transaction = transaction_manager.beginTransaction();
+
         for (Birth birth : Birth.convertToRecords(birth_records)) {
             addBirth(birth);
         }
+
+        transaction.commit();
+        transaction_manager.setAutoCommit(auto_commit_previously_enabled);
     }
 
     public void importDeathRecords(DataSet death_records) throws BucketException {
 
+        final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
+        final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
+        transaction_manager.setAutoCommit(false);
+        final ITransaction transaction = transaction_manager.beginTransaction();
+
         for (Death death : Death.convertToRecords(death_records)) {
             addDeath(death);
         }
+
+        transaction.commit();
+        transaction_manager.setAutoCommit(auto_commit_previously_enabled);
     }
 
     public void importMarriageRecords(DataSet marriage_records) throws BucketException {
 
+        final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
+        final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
+        transaction_manager.setAutoCommit(false);
+        final ITransaction transaction = transaction_manager.beginTransaction();
+
         for (Marriage marriage : Marriage.convertToRecords(marriage_records)) {
             addMarriage(marriage);
         }
+
+        transaction.commit();
+        transaction_manager.setAutoCommit(auto_commit_previously_enabled);
     }
 
     private <T extends LXP> Iterable<T> getRecords(IBucket<T> bucket) {
 
         return () -> new Iterator<>() {
 
-            final List<Long> object_ids = bucket.getOids();
+            final List<Long> object_ids = bucket.getObjectIds();
             final int bucket_size = object_ids.size();
             int next_index = 0;
 
@@ -124,7 +154,7 @@ public class RecordRepository {
         };
     }
 
-    public void initialiseBuckets(String repository_name) throws RepositoryException, IOException {
+    public void initialiseBuckets(String repository_name) throws RepositoryException, BucketException, IOException {
 
         IRepository input_repository;
         try {

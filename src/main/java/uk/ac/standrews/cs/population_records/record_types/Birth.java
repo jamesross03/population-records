@@ -16,7 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
+import uk.ac.standrews.cs.neoStorr.impl.LXPMetaData;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
 import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
@@ -36,11 +36,11 @@ public class Birth extends StaticLXP {
     public static final String ROLE_FATHER = "ROLE_FATHER";
     public static final String ROLE_PARENTS = "ROLE_PARENTS"; // When both parents are matched
 
-    private static LXPMetadata static_metadata;
+    private static LXPMetaData static_metadata;
     static {
 
         try {
-            static_metadata = new LXPMetadata(Birth.class, "Birth");
+            static_metadata = new LXPMetaData(Birth.class, "Birth");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -74,7 +74,7 @@ public class Birth extends StaticLXP {
     }
 
     @Override
-    public LXPMetadata getMetaData() {
+    public LXPMetaData getMetaData() {
         return static_metadata;
     }
 

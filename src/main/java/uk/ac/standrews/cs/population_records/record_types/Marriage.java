@@ -16,9 +16,8 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import uk.ac.standrews.cs.neoStorr.impl.LXPMetadata;
+import uk.ac.standrews.cs.neoStorr.impl.LXPMetaData;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
-import uk.ac.standrews.cs.neoStorr.impl.exceptions.IllegalKeyException;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
 import uk.ac.standrews.cs.neoStorr.interfaces.IBucket;
 import uk.ac.standrews.cs.neoStorr.types.LXPBaseType;
@@ -42,17 +41,17 @@ public class Marriage extends StaticLXP {
     public static final String ROLE_BRIDES_PARENTS = "ROLE_BRIDES_PARENTS";  // When both bride's parents are matched
     public static final String ROLE_GROOMS_PARENTS = "ROLE_GROOMS_PARENTS";  // When both groom's parents are matched
 
-    private static LXPMetadata static_metadata;
+    private static LXPMetaData static_metadata;
     static {
 
         try {
-            static_metadata = new LXPMetadata(Marriage.class, "Marriage");
+            static_metadata = new LXPMetaData(Marriage.class, "Marriage");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public static LXPMetadata getStaticMetaData() {
+    public static LXPMetaData getStaticMetaData() {
         return static_metadata;
     }
 
@@ -60,7 +59,7 @@ public class Marriage extends StaticLXP {
         super();
     }
 
-    public Marriage(long persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException, IllegalKeyException {
+    public Marriage(long persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException {
 
         super(persistent_object_id, properties, bucket);
     }
@@ -82,7 +81,7 @@ public class Marriage extends StaticLXP {
     }
 
     @Override
-    public LXPMetadata getMetaData() {
+    public LXPMetaData getMetaData() {
         return static_metadata;
     }
 
