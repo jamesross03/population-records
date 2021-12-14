@@ -117,10 +117,22 @@ public class RecordRepository implements AutoCloseable {
         final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
         final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
         transaction_manager.setAutoCommit(false);
-        final ITransaction transaction = transaction_manager.beginTransaction();
+        ITransaction transaction = transaction_manager.beginTransaction();
 
+        int count = 0;
         for (Death death : Death.convertToRecords(death_records)) {
             addDeath(death);
+
+            count++;
+
+            if (count % 1000 == 0) System.out.println(count);
+            if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
+                System.out.println("committing");
+                transaction.commit();
+                System.out.println("complete");
+                transaction = transaction_manager.beginTransaction();
+            }
+
         }
 
         transaction.commit();
@@ -132,10 +144,22 @@ public class RecordRepository implements AutoCloseable {
         final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
         final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
         transaction_manager.setAutoCommit(false);
-        final ITransaction transaction = transaction_manager.beginTransaction();
+         ITransaction transaction = transaction_manager.beginTransaction();
 
+        int count = 0;
         for (Marriage marriage : Marriage.convertToRecords(marriage_records)) {
             addMarriage(marriage);
+
+            count++;
+
+            if (count % 1000 == 0) System.out.println(count);
+            if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
+                System.out.println("committing");
+                transaction.commit();
+                System.out.println("complete");
+                transaction = transaction_manager.beginTransaction();
+            }
+
         }
 
         transaction.commit();
