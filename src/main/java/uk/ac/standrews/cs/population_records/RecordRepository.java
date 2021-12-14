@@ -84,15 +84,28 @@ public class RecordRepository implements AutoCloseable {
         marriages.makePersistent(marriage);
     }
 
+    public static final int RECORDS_IMPORTED_PER_TRANSACTION = 10000;
+
     public void importBirthRecords(DataSet birth_records) throws BucketException {
 
         final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
         final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
         transaction_manager.setAutoCommit(false);
-        final ITransaction transaction = transaction_manager.beginTransaction();
+        ITransaction transaction = transaction_manager.beginTransaction();
+
+        int count = 0;
 
         for (Birth birth : Birth.convertToRecords(birth_records)) {
             addBirth(birth);
+            count++;
+
+            if (count++ % 1000 == 0) System.out.println(count);
+            if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
+                System.out.println("committing");
+                transaction.commit();
+                System.out.println("complete");
+                transaction = transaction_manager.beginTransaction();
+            }
         }
 
         transaction.commit();
