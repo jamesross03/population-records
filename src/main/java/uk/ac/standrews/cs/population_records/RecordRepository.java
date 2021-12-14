@@ -99,7 +99,7 @@ public class RecordRepository implements AutoCloseable {
             addBirth(birth);
             count++;
 
-            if (count++ % 1000 == 0) System.out.println(count);
+            if (count % 1000 == 0) System.out.println(count);
             if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
                 System.out.println("committing");
                 transaction.commit();
