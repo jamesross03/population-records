@@ -86,7 +86,7 @@ public class RecordRepository implements AutoCloseable {
 
     public static final int RECORDS_IMPORTED_PER_TRANSACTION = 10000;
 
-    public void importBirthRecords(DataSet birth_records) throws BucketException {
+    private <T extends LXP> void importRecords(IBucket<T> bucket, Iterable<LXP> records) throws BucketException {
 
         final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
         final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
@@ -95,75 +95,36 @@ public class RecordRepository implements AutoCloseable {
 
         int count = 0;
 
-        for (Birth birth : Birth.convertToRecords(birth_records)) {
-            addBirth(birth);
+        for (LXP record : records) {
+
+            bucket.makePersistent((T) record);
             count++;
 
-            if (count % 1000 == 0) System.out.println(count);
             if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
-                System.out.println("committing");
+                System.out.println("committing after " + count + " records");
                 transaction.commit();
-                System.out.println("complete");
+                System.out.println("complete\n");
                 transaction = transaction_manager.beginTransaction();
             }
         }
 
         transaction.commit();
         transaction_manager.setAutoCommit(auto_commit_previously_enabled);
+    }
+
+    public void importBirthRecords(DataSet birth_records) throws BucketException {
+
+        importRecords(births, Birth.convertToUntypedRecords(birth_records));
     }
 
     public void importDeathRecords(DataSet death_records) throws BucketException {
 
-        final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
-        final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
-        transaction_manager.setAutoCommit(false);
-        ITransaction transaction = transaction_manager.beginTransaction();
-
-        int count = 0;
-        for (Death death : Death.convertToRecords(death_records)) {
-            addDeath(death);
-
-            count++;
-
-            if (count % 1000 == 0) System.out.println(count);
-            if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
-                System.out.println("committing");
-                transaction.commit();
-                System.out.println("complete");
-                transaction = transaction_manager.beginTransaction();
-            }
-
-        }
-
-        transaction.commit();
-        transaction_manager.setAutoCommit(auto_commit_previously_enabled);
+        importRecords(deaths, Death.convertToUntypedRecords(death_records));
     }
 
     public void importMarriageRecords(DataSet marriage_records) throws BucketException {
 
-        final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
-        final boolean auto_commit_previously_enabled = transaction_manager.isAutoCommitEnabled();
-        transaction_manager.setAutoCommit(false);
-         ITransaction transaction = transaction_manager.beginTransaction();
-
-        int count = 0;
-        for (Marriage marriage : Marriage.convertToRecords(marriage_records)) {
-            addMarriage(marriage);
-
-            count++;
-
-            if (count % 1000 == 0) System.out.println(count);
-            if (count % RECORDS_IMPORTED_PER_TRANSACTION == 0) {
-                System.out.println("committing");
-                transaction.commit();
-                System.out.println("complete");
-                transaction = transaction_manager.beginTransaction();
-            }
-
-        }
-
-        transaction.commit();
-        transaction_manager.setAutoCommit(auto_commit_previously_enabled);
+        importRecords(marriages, Marriage.convertToUntypedRecords(marriage_records));
     }
 
     private <T extends LXP> Iterable<T> getRecords(IBucket<T> bucket) {

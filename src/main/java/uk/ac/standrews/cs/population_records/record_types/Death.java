@@ -16,6 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
+import uk.ac.standrews.cs.neoStorr.impl.LXP;
 import uk.ac.standrews.cs.neoStorr.impl.LXPMetaData;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
@@ -87,7 +88,25 @@ public class Death extends StaticLXP {
         return static_metadata.getFieldNamesInSlotOrder();
     }
 
-    public static Iterable<Death> convertToRecords(DataSet data_set) {
+    public static Iterable<Death> convertToRecords(final DataSet data_set) {
+
+        return () -> new Iterator<>() {
+
+            final Iterator<LXP> iterator = convertToUntypedRecords(data_set).iterator();
+
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+
+            @Override
+            public Death next() {
+                return (Death) iterator.next();
+            }
+        };
+    }
+
+    public static Iterable<LXP> convertToUntypedRecords(final DataSet data_set) {
 
         return () -> new Iterator<>() {
 
@@ -102,7 +121,7 @@ public class Death extends StaticLXP {
             }
 
             @Override
-            public Death next() {
+            public LXP next() {
                 return new Death(data_set, records.get(row++));
             }
         };

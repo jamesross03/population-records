@@ -16,6 +16,7 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
+import uk.ac.standrews.cs.neoStorr.impl.LXP;
 import uk.ac.standrews.cs.neoStorr.impl.LXPMetaData;
 import uk.ac.standrews.cs.neoStorr.impl.StaticLXP;
 import uk.ac.standrews.cs.neoStorr.impl.exceptions.PersistentObjectException;
@@ -90,7 +91,25 @@ public class Marriage extends StaticLXP {
         return static_metadata.getFieldNamesInSlotOrder();
     }
 
-    public static Iterable<Marriage> convertToRecords(DataSet data_set) {
+    public static Iterable<Marriage> convertToRecords(final DataSet data_set) {
+
+        return () -> new Iterator<>() {
+
+            final Iterator<LXP> iterator = convertToUntypedRecords(data_set).iterator();
+
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+
+            @Override
+            public Marriage next() {
+                return (Marriage) iterator.next();
+            }
+        };
+    }
+
+    public static Iterable<LXP> convertToUntypedRecords(final DataSet data_set) {
 
         return () -> new Iterator<>() {
 
@@ -105,7 +124,7 @@ public class Marriage extends StaticLXP {
             }
 
             @Override
-            public Marriage next() {
+            public LXP next() {
                 return new Marriage(data_set, records.get(row++));
             }
         };
