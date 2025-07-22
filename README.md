@@ -10,7 +10,7 @@ This project provides some Java utility classes for manipulating population reco
 <dependency>
     <groupId>uk.ac.standrews.cs</groupId>
     <artifactId>population-records</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 </dependency>
 ...
 <repository>
