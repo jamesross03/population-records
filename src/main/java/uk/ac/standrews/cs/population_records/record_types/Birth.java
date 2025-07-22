@@ -53,7 +53,7 @@ public class Birth extends StaticLXP {
         super();
     }
 
-    public Birth(long persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException {
+    public Birth(long persistent_object_id, Map<String, Object> properties, IBucket<Birth> bucket) throws PersistentObjectException {
 
         super(persistent_object_id, properties, bucket);
     }

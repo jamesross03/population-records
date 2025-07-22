@@ -86,6 +86,7 @@ public class RecordRepository implements AutoCloseable {
 
     public static final int RECORDS_IMPORTED_PER_TRANSACTION = 10000;
 
+    @SuppressWarnings("unchecked")
     private <T extends LXP> void importRecords(IBucket<T> bucket, Iterable<LXP> records) throws BucketException {
 
         final ITransactionManager transaction_manager = Store.getInstance().getTransactionManager();
@@ -251,7 +252,7 @@ public class RecordRepository implements AutoCloseable {
         return new String[]{BIRTHS_BUCKET_NAME, DEATHS_BUCKET_NAME, MARRIAGES_BUCKET_NAME};
     }
 
-    public IBucket getBucket(String bucketName) {
+    public IBucket<?> getBucket(String bucketName) {
         switch (bucketName) {
             case BIRTHS_BUCKET_NAME:
                 return births;
