@@ -131,7 +131,7 @@ public class RecordRepository implements AutoCloseable {
 
         return () -> new Iterator<>() {
 
-            final List<Long> object_ids = bucket.getObjectIds();
+            final List<String> object_ids = bucket.getObjectIds();
             final int bucket_size = object_ids.size();
             int next_index = 0;
 

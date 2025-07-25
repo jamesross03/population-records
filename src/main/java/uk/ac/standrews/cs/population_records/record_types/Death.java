@@ -57,7 +57,7 @@ public class Death extends StaticLXP {
         super();
     }
 
-    public Death(long persistent_Object_id, Map properties, IBucket bucket) throws PersistentObjectException {
+    public Death(String persistent_Object_id, Map properties, IBucket bucket) throws PersistentObjectException {
 
         super(persistent_Object_id, properties, bucket);
     }

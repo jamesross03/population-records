@@ -60,8 +60,8 @@ public class Marriage extends StaticLXP {
         super();
     }
 
-    public Marriage(long persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException {
-
+    public Marriage(String persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException {
+        
         super(persistent_object_id, properties, bucket);
     }
 
