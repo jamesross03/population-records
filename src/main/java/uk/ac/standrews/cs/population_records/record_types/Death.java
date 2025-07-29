@@ -75,7 +75,7 @@ public class Death extends StaticLXP {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(this.getId()).hashCode();
+        return this.getId().hashCode();
     }
 
     @Override

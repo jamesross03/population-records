@@ -78,7 +78,7 @@ public class Marriage extends StaticLXP {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(getId()).hashCode();
+        return getId().hashCode();
     }
 
     @Override

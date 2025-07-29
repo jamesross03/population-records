@@ -53,7 +53,7 @@ public class Birth extends StaticLXP {
         super();
     }
 
-    public Birth(String persistent_object_id, Map properties, IBucket bucket) throws PersistentObjectException {
+    public Birth(String persistent_object_id, Map properties, IBucket<Birth> bucket) throws PersistentObjectException {
 
         super(persistent_object_id, properties, bucket);
     }
@@ -71,7 +71,7 @@ public class Birth extends StaticLXP {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(getId()).hashCode();
+        return getId().hashCode();
     }
 
     @Override
