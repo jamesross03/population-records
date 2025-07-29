@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings("WeakerAccess")
 public class Marriage extends StaticLXP {
 
     public static final String ROLE_BRIDE = "ROLE_BRIDE";
