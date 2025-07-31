@@ -18,7 +18,6 @@ package uk.ac.standrews.cs.population_records.record_types;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.standrews.cs.neoStorr.impl.LXP;

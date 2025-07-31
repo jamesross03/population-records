@@ -16,35 +16,18 @@
  */
 package uk.ac.standrews.cs.population_records;
 
-import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.neo4j.harness.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import uk.ac.standrews.cs.utilities.dataset.DataSet;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import org.neo4j.graphdb.*;
-import org.neo4j.driver.*;
-
-import static org.neo4j.driver.GraphDatabase.driver;
-import static org.neo4j.driver.Values.parameters;
-
-public class RecordRepositoryIntegrationTest {
-    private final static String REPOSITORY_NAME = "umea";
-
-    private static Neo4j embeddedDatabaseServer;
-    private static Driver driver;
-
-    @BeforeAll
-    static void startServer() {
-        embeddedDatabaseServer = Neo4jBuilders.newInProcessBuilder().build();
-        driver = driver(embeddedDatabaseServer.boltURI(), Config.defaultConfig());
-    }
-
-    @AfterAll
-    static void stopServer() {
-        driver.close();
-        embeddedDatabaseServer.close();
+public class RecordRepositoryTest {
+    @Test 
+    void testGetBucketNames() {
+        List<String> bucketNames = Arrays.asList(RecordRepository.getBucketNames());
+        assertTrue(bucketNames.contains("birth_records"));
+        assertTrue(bucketNames.contains("marriage_records"));
+        assertTrue(bucketNames.contains("death_records"));
     }
 }
-

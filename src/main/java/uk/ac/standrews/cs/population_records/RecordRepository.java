@@ -144,6 +144,7 @@ public class RecordRepository implements AutoCloseable {
             @Override
             public T next() {
                 try {
+                    if (object_ids.size() == 0) System.out.println("ERROR");
                     return bucket.getObjectById(object_ids.get(next_index++));
 
                 } catch (BucketException e) {

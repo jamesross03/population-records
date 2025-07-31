@@ -34,6 +34,10 @@
     <description>Population Records</description>
     <inceptionYear>2018</inceptionYear>
 
+    <properties>
+        <jdk.version>21</jdk.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -51,7 +55,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.2</version> <!-- Use the latest version -->
+            <version>5.10.2</version> 
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j.test</groupId>
+            <artifactId>neo4j-harness</artifactId>
+            <version>5.26.9</version>
             <scope>test</scope>
         </dependency>
 

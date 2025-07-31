@@ -16,9 +16,6 @@
  */
 package uk.ac.standrews.cs.population_records.record_types;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +24,9 @@ import org.junit.Test;
 import uk.ac.standrews.cs.utilities.dataset.DataSet;
 
 public abstract class RecordTypeTest {
-    final List<String> expectedLabels;
-    final List<List<String>> testRecords;
-    final DataSet datasetNoRecords;
+    public final List<String> expectedLabels;
+    public final List<List<String>> testRecords;
+    public final DataSet datasetNoRecords;
 
     public RecordTypeTest(List<String> expectedLabels) {
         this.expectedLabels = expectedLabels;
