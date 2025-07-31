@@ -17,6 +17,7 @@
 package uk.ac.standrews.cs.population_records;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class RecordRepositoryNeoTest {
     @AfterEach
     void tearDown() throws RepositoryException {
         Store.getInstance().deleteRepository(repoName);
+        assertFalse(Store.getInstance().repositoryExists(repoName));
         repo = null;
     }
     
@@ -98,13 +100,44 @@ public class RecordRepositoryNeoTest {
         Birth birth = new Birth(BIRTH_TEST.datasetNoRecords, BIRTH_TEST.testRecords.get(0));
         repo.addBirth(birth);
 
+        assertEquals(1, repo.getNumberOfBirths());
+
         Birth retrieved = repo.getBirths().iterator().next();
         assertEquals(birth, retrieved);
     }
 
-    /*
     @Test
-    void testAddAndGetRecordWithReopen() throws BucketException {
+    void testAddAndGetMarriageRecord() throws BucketException, RepositoryException, IOException {
+        Marriage marriage = new Marriage(MARRIAGE_TEST.datasetNoRecords, MARRIAGE_TEST.testRecords.get(0));
+        repo.addMarriage(marriage);
+
+        assertEquals(1, repo.getNumberOfMarriages());
+        
+        Marriage retrieved = repo.getMarriages().iterator().next();
+        assertEquals(marriage, retrieved);
+    }
+
+    @Test
+    void testAddAndGetDeathRecord() throws BucketException, RepositoryException, IOException {
+        Death death = new Death(DEATH_TEST.datasetNoRecords, DEATH_TEST.testRecords.get(0));
+        repo.addDeath(death);
+
+        assertEquals(1, repo.getNumberOfDeaths());
+        
+        Death retrieved = repo.getDeaths().iterator().next();
+        assertEquals(death, retrieved);
+    }
+
+    @Test
+    void testAddAndGetRecordWithReopen() throws BucketException, RepositoryException {
+        Birth birth = new Birth(BIRTH_TEST.datasetNoRecords, BIRTH_TEST.testRecords.get(0));
+        repo.addBirth(birth);
+
+        Store.getInstance().deleteRepository(repoName);
+        repo = new RecordRepository(repoName);
+
+        Birth retrieved = repo.getBirths().iterator().next();
+        assertEquals(birth, retrieved);
     }
 
     @Test
@@ -126,12 +159,6 @@ public class RecordRepositoryNeoTest {
     @Test
     void testGetBucketsAlreadyDeleted() {
     }
-    
-    @Test 
-    void testGetNumberOfBirths(){
-
-    }
-    */
 
     @Test
     void testTestIsolation() {
